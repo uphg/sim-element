@@ -89,13 +89,37 @@
 </template>
 
 <script>
-import { ref, computed, onMounted, nextTick, inject  } from '@vue/composition-api'
-import { FormItem } from 'element-ui'
+// import { ref, computed, onMounted, nextTick, inject  } from '@vue/composition-api'
+import {
+  Input as ElInput,
+  Select as ElSelect,
+  RadioGroup as ElRadioGroup,
+  Radio as ElRadio,
+  DatePicker as ElDatePicker,
+  CheckboxGroup as ElCheckboxGroup,
+  Checkbox as ElCheckbox,
+  InputNumber as ElInputNumber,
+
+} from 'element-ui'
 import { formAddFieldKey, formFieldsKey, formWithEnterNextKey, formGlobalFieldsKey, } from './use-t-form'
+import { toString } from '../utils'
 
 export default {
   components: {
-    'el-form-item': FormItem
+    ElInput,
+    ElSelect,
+    ElRadioGroup,
+    ElRadio,
+    ElDatePicker,
+    ElCheckbox,
+    ElCheckboxGroup,
+    ElInputNumber
+  },
+  inject: {
+    fields: formFieldsKey,
+    formAddField: formAddFieldKey,
+    globalFields: formGlobalFieldsKey,
+    withEnterNext: formWithEnterNextKey,
   },
   props: {
     value: [String, Number, Date, Array],
@@ -148,6 +172,123 @@ export default {
     submitText: String,
     cancelText: String,
   },
+  data() {
+    return {
+      current,
+      order
+    }
+  },
+
+  mounted() {
+    formAddField(createField())
+
+    // 设置当前 form item 索引
+    const length = this.fields?.length
+    this.order = length - 1
+
+    // 修复 select 组件初始化激活验证的 bug
+    if (this.type === 'select') {
+      nextTick(() => {
+        this.$refs.elFormItemRef.clearValidate()
+      })
+    }
+  }, 
+
+  methods: {
+    onInput(value) {
+      this.$emit('input', value)
+    },
+
+    onInputText(value) {
+      const limit = current.value?.limit
+      const newValue = limit ? toString(value).replace(limit, '') : value
+      this.onInput(newValue)
+    },
+
+    onInputNumber(newVal) {
+      if (this.value === newVal) return
+      this.onInput(newVal)
+    },
+
+    onChange(value) {
+      this.$emit('change', value)
+    },
+
+    onBlur(value) {
+      this.$emit('blur', value)
+    },
+
+    createField() {
+      const { type, prop, eqField, eqError, uneqField, uneqError } = this
+      const result = {
+        type,
+        prop,
+        elFormItem: this.$refs.elFormItemRef
+      }
+
+      if (eqField) {
+        result.eqField = eqField
+        result.eqError = eqError
+      }
+
+      if (uneqField) {
+        result.uneqField = uneqField
+        result.uneqError = uneqError
+      }
+
+      if (enterNext && !this.$slots.default) {
+        if (type === 'input' || type === 'password' || type === 'textarea') {
+          result.selected = inputRef.value.focus
+        } else if (type === 'select') {
+          result.selected = selectRef.value.toggleMenu
+        } else if (type === 'radio') {
+          const firstRadio = radioGroupRef.value.$children[0].$el
+          result.selected = () => {
+            firstRadio.focus()
+            // onInput(props.options[0].value)
+          }
+        } else if (type === 'date-picker') {
+          result.selected = datePickerRef.value.focus
+        } else if (type === 'input-number') {
+          result.selected = inputNumberRef.value.focus
+        } else if (type === 'checkbox') {
+          const firstCheckbox = checkboxGroupRef.value.$children[0].$el
+          result.selected = () => {
+            firstCheckbox.focus()
+          }
+        }
+      } else {
+        if (type === 'button') {
+          const buttons = this.$slots.default()
+          result.selected = () => {
+            buttons[0].elm.click()
+          }
+        }
+      }
+      
+      return result
+    },
+
+    onEnter() {
+      const { order, fields } = this
+      if (enterNext) {
+        if (this.type === 'textarea') {
+          return
+        }
+        const formItem = this.$refs.elFormItemRef
+        formItem.validate('blur', (message) => {
+          if (formItem.validateState === 'error') {
+            return
+          }
+          if (order >= (fields.length - 1)) {
+            return
+          }
+          const next = fields[order + 1]
+          next.selected && next.selected() 
+        });
+      }
+    }
+  },
   setup(props, context) {
     const current = computed(() => globalFields?.[props.prop])
     const elFormItemRef = ref(null)
@@ -169,7 +310,7 @@ export default {
     const enterNext = inject(enterNextKey)
 
     function onInput(value) {
-      context.emit('input', value)
+      this.$emit('input', value)
     }
 
     function onInputText(value) {
@@ -184,11 +325,11 @@ export default {
     }
 
     function onChange(value) {
-      context.emit('change', value)
+      this.$emit('change', value)
     }
 
     function onBlur(value) {
-      context.emit('blur', value)
+      this.$emit('blur', value)
     }
 
     function createField() {
@@ -283,11 +424,6 @@ export default {
     return {
       elFormItemRef,
       inputRef,
-      selectRef,
-      radioGroupRef,
-      datePickerRef,
-      checkboxGroupRef,
-      inputNumberRef,
       order,
       isInput,
       baseLabel,

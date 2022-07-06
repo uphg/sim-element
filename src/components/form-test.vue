@@ -5,7 +5,9 @@
       <t-form-item
         v-model="form.username"
         prop="username"
-      />
+      >
+        <p>haha</p>
+      </t-form-item>
       <t-form-item v-model="form.password" prop="password" type="password" />
       <t-form-item
         v-model="form.checkPassword"
@@ -70,7 +72,6 @@
         @click-submit="onClickSubmit"
         @click-cancel="onClickCancel"
       >
-        
       </t-form-item>
     </t-form>
   </div>

@@ -3,14 +3,16 @@
 <template>
   <div>
     <form-test />
+    <FormBoxDemo />
   </div>
 </template>
 
 <script>
 import FormTest from "./components/form-test.vue"
+import FormBoxDemo from "./components/form-box-demo.vue"
 
 export default {
-  components: { FormTest }
+  components: { FormTest, FormBoxDemo }
 }
 </script>
 

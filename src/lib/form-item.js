@@ -1,24 +1,28 @@
 import { FormItem } from "element-ui"
-import { fieldsKey, formAddFieldKey, withEnterNextKey } from "./providers"
+import { formFieldsKey, formAddFieldKey, formWithEnterNextKey } from "./providers"
 
 export default {
   name: 'SFormItem',
   inject: {
-    fields: fieldsKey,
-    formAddField: formAddFieldKey,
-    withEnterNext: withEnterNextKey
+    fields: formFieldsKey,
+    addField: formAddFieldKey,
+    withEnterNext: formWithEnterNextKey
   },
   mounted() {
     // console.log(`this[fieldsKey]`)
     // console.log(this[fieldsKey])
   },
+  methods: {
+
+  },
   render(h, context) {
     const slots = this.$slots.default
     return h(FormItem, {
-      class: 't-form-item',
+      class: 'sim-form-item',
       scopedSlots: {
-        default: () => slots
+        default: () => slots,
+        header: () => this.$slots.header
       }
-    })
+    }/* , slots */)
   }
 }

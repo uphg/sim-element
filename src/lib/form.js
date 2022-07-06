@@ -1,6 +1,6 @@
 import { Form } from "element-ui"
 import { pick } from "../utils"
-import { fieldsKey, formAddFieldKey, withEnterNextKey, formGlobalFieldsKey } from "./providers"
+import { formFieldsKey, formAddFieldKey, formWithEnterNextKey, formGlobalFieldsKey } from "./providers"
 
 const elPropKeys = ['model', 'labelPosition', 'labelWidth', 'labelSuffix', 'validateOnRuleChange']
 
@@ -20,6 +20,7 @@ const props = {
     default: ''
   },
   validateOnRuleChange: false,
+
   // customize props
   withValidator: Boolean,
   withEnterNext: Boolean,
@@ -37,13 +38,18 @@ export default {
   inject: { globalFields: formGlobalFieldsKey },
   provide() {
     return {
-      [fieldsKey]: this.fields,
-      [formAddFieldKey]: this.formAddField,
-      [withEnterNextKey]: this.withEnterNext,
+      [formFieldsKey]: this.fields,
+      [formAddFieldKey]: this.addField,
+      [formWithEnterNextKey]: this.withEnterNext,
+    }
+  },
+  mounted() {
+    if (this.withValidator) {
+      this.baseRules = this.createFormRules(this.fields, this.model)
     }
   },
   methods: {
-    formAddField(item) {
+    addField(item) {
       this.fields.push(item)
     },
     createFormRules(fields, model) {
@@ -86,15 +92,10 @@ export default {
       return result
     }
   },
-  mounted() {
-    if (this.withValidator) {
-      this.baseRules = this.createFormRules(this.fields, this.model)
-    }
-  },
   render(h) {
     const slots = this.$slots.default
     return h(Form, {
-      class: 't-form',
+      class: 'sim-form',
       ref: 'elFormRef',
       props: {
         ...pick(this, elPropKeys),

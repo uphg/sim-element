@@ -1,6 +1,5 @@
 {
-  "name": "simp-element",
-  "private": true,
+  "name": "sim-element",
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",

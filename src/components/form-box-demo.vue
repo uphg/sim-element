@@ -5,7 +5,7 @@
         type="text"
         v-model="input"
       />
-      {{ input }}
+      <p>{{ input }}</p>
     </p>
     <p>
       <s-form-input
@@ -17,15 +17,7 @@
         ]"
         v-model="select"
       />
-      {{ select }}
-    </p>
-    <p>
-      <p>改变 type</p>
-      <s-form-input v-model="autoInput" :type="autoType" ></s-form-input>
-      <button @click="clickButton">改变</button>
-    </p>
-    <p>
-      <s-form-input v-model="autoInput" :type="autoType" ></s-form-input>
+      <p>{{ select }}</p>
     </p>
     <p>
       <s-form-input
@@ -38,6 +30,19 @@
         ]"
         @input="onInputRadio"
       ></s-form-input>
+      <p>{{ radio }}</p>
+    </p>
+    <p>
+      <s-form-input
+        type="checkbox"
+        v-model="checkbox"
+        :options="[
+          { label: '选项1', value: 1 },
+          { label: '选项2', value: 2 },
+          { label: '选项3', value: 3 },
+        ]"
+      ></s-form-input>
+      <p>{{ checkbox }}</p>
     </p>
   </div>
 </template>
@@ -52,7 +57,8 @@ export default {
       select: '',
       autoType: 'text',
       autoInput: '',
-      radio: 1
+      radio: 1,
+      checkbox: []
     }
   },
   methods: {
@@ -74,5 +80,8 @@ export default {
   min-height: 50vh;
   max-width: 80vw;
   margin: 0 auto;
+}
+p {
+  min-height: 2.2em;
 }
 </style>

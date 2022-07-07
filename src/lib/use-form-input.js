@@ -20,9 +20,9 @@ function useFormInput(props, context) {
   }
 
   const inputMap = [
-    [
-      ['text', 'password', 'textarea'],
-      () => h(ElInput, {
+    {
+      type: ['text', 'password', 'textarea'],
+      render: () => h(ElInput, {
         props: {
           value: props.value
         },
@@ -30,10 +30,10 @@ function useFormInput(props, context) {
           input: onInput
         }
       })
-    ],
-    [
-      'select',
-      () => h(ElSelect, {
+    },
+    {
+      type: 'select',
+      render: () => h(ElSelect, {
         props: {
           value: props.value
         },
@@ -50,10 +50,10 @@ function useFormInput(props, context) {
           }
         )
       ))
-    ],
-    [
-      'radio',
-      () => h(ElRadioGroup, {
+    },
+    {
+      type: 'radio',
+      render: () => h(ElRadioGroup, {
         props: {
           value: props.value
         }
@@ -71,22 +71,30 @@ function useFormInput(props, context) {
           }
         }, [item.label])
       ))
-    ],
-    [
-      'checkbox',
-      () => h(ElCheckbox, {
+    },
+    {
+      type: 'checkbox',
+      render: () => h(ElCheckboxGroup, {
+        props: {
+          value: props.value
+        },
         on: {
           input: onInput
         }
-      }, props.options.map(() => ))
-    ]
+      }, props.options.map(
+        (item) => h(ElCheckbox, {
+          props: {
+            label: item.value
+          },
+
+        }, [item.label])
+      ))
+    }
   ]
-  const current = find(inputMap, (item) => {
-    const type = item[0]
+  const current = find(inputMap, ({ type }) => {
     return typeof type === 'string' ? props.type === type : type.indexOf(props.type) !== -1
   })
-  console.log('渲染一次 setup')
-  return current[1]
+  return current.render
 }
 
 export default useFormInput

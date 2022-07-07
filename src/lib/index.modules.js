@@ -1,7 +1,7 @@
 import { formGlobalFieldsKey } from './providers'
 export { default as Form } from './form'
 export { default as FormItem } from './form-item'
-export { default as FormInput } from './form-input.vue'
+export { default as FormInput } from './form-input.js'
 export { formGlobalFieldsKey }
 
 export function install(Vue) {

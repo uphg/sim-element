@@ -172,11 +172,8 @@ export default {
     submitText: String,
     cancelText: String,
   },
-  data() {
-    return {
-      current,
-      order
-    }
+  setup() {
+
   },
 
   mounted() {

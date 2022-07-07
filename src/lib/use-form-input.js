@@ -86,15 +86,16 @@ function useFormInput(props, context) {
           props: {
             label: item.value
           },
-
         }, [item.label])
       ))
     }
   ]
-  const current = find(inputMap, ({ type }) => {
-    return typeof type === 'string' ? props.type === type : type.indexOf(props.type) !== -1
-  })
-  return current.render
+
+  const render = find(inputMap, ({ type }) => (
+    typeof type === 'string' ? props.type === type : type.indexOf(props.type) !== -1
+  )).render
+
+  return render
 }
 
 export default useFormInput

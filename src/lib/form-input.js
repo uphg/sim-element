@@ -6,7 +6,7 @@ import { h } from "vue"
 export default {
   name: 'SFormBox',
   props: {
-    value: [String, Number],
+    value: [String, Number, Array],
     type: {
       type: String,
       default: 'text'

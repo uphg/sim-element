@@ -4,12 +4,14 @@ import {
   Option as ElOption,
   RadioGroup as ElRadioGroup,
   Radio as ElRadio,
-  DatePicker as ElDatePicker,
   CheckboxGroup as ElCheckboxGroup,
   Checkbox as ElCheckbox,
   InputNumber as ElInputNumber,
+  Switch as ElSwitch,
+  Slider as ElSlider,
+  TimeSelect as ElTimeSelect,
+  DatePicker as ElDatePicker
 } from 'element-ui'
-import { formAddFieldKey, formFieldsKey, formWithEnterNextKey, formGlobalFieldsKey, } from './providers'
 import { toString, find } from '../utils'
 import { h } from 'vue'
 
@@ -19,15 +21,28 @@ function useFormInput(props, context) {
     context.emit('input', value)
   }
 
+  function onChange(value) {
+    context.emit('change', value)
+  }
+
+  function onBlur(value) {
+    context.emit('blur', value)
+  }
+
   const inputMap = [
     {
       type: ['text', 'password', 'textarea'],
       render: () => h(ElInput, {
         props: {
+          type: props.type,
           value: props.value
         },
         on: {
-          input: onInput
+          input(value) {
+            const newValue = props.exclude ? toString(value).replace(props.exclude, '') : value
+            onInput(newValue)
+          },
+          blur: onBlur,
         }
       })
     },
@@ -38,7 +53,8 @@ function useFormInput(props, context) {
           value: props.value
         },
         on: {
-          change: onInput
+          change: onInput,
+          blur: onBlur,
         }
       }, props.options.map(
         (item) => h(ElOption,
@@ -64,8 +80,6 @@ function useFormInput(props, context) {
           },
           on: {
             change: () => {
-              console.log('radio change')
-              console.log(item.value)
               onInput(item.value)
             }
           }
@@ -88,7 +102,74 @@ function useFormInput(props, context) {
           },
         }, [item.label])
       ))
-    }
+    },
+    {
+      type: 'number',
+      render: () => h(ElInputNumber, {
+        props: {
+          value: props.value
+        },
+        on: {
+          input(newVal) {
+            if (props.value === newVal) return
+            onInput(newVal)
+          },
+          change: onChange
+        }
+      })
+    },
+    {
+      type: 'switch',
+      render: () => h(ElSwitch, {
+        props: {
+          value: props.value
+        },
+        on: {
+          input: onInput,
+          change: onChange
+        }
+      })
+    },
+    {
+      type: 'slider',
+      render: () => h(ElSlider, {
+        props: {
+          value: props.value
+        },
+        on: {
+          input: onInput,
+          change: onChange
+        }
+      })
+    },
+    {
+      type: 'time',
+      render: () => h(ElTimeSelect, {
+        props: {
+          value: props.value,
+          pickerOptions: props.pickerOptions,
+          placeholder: props.placeholder
+        },
+        on: {
+          input: onInput,
+          change: onChange
+        }
+      })
+    },
+    {
+      type: ['date', 'datetime'],
+      render: () => h(ElDatePicker, {
+        props: {
+          type: props.type,
+          value: props.value,
+          placeholder: props.placeholder
+        },
+        on: {
+          input: onInput,
+          change: onChange
+        }
+      })
+    },
   ]
 
   const render = find(inputMap, ({ type }) => (

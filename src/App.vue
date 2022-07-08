@@ -1,10 +1,7 @@
-
-
 <template>
   <div>
-    <h1>HelloWorld</h1>
     <FormBoxDemo />
-    <form-test />
+    <!-- <form-test /> -->
   </div>
 </template>
 

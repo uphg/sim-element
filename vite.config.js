@@ -1,7 +1,40 @@
 import path from 'path'
 import vue from '@vitejs/plugin-vue2'
+import Markdown from 'vite-plugin-md'
+import MarkdownIt from 'markdown-it'
+import { highlight } from './src/utils/highlight'
+import { linksPlugin } from './plugins/markdown/demo'
+import mdContainer from 'markdown-it-container'
+import fs from 'fs'
+const localMd = MarkdownIt()
+
 const replacement = `${path.resolve(__dirname, './src')}/`
 
+const src = `${path.resolve(__dirname, './src')}`
+
+// const fileRegex = /\.(my-file-ext)$/
+
+// function myPlugin() {
+//   return {
+//     name: 'transform-file',
+
+//     transform(src, id) {
+//       if (/\.(md)$/.test(id)) {
+//         // console.log('.vue')
+//         // console.log(id)
+//         // console.log('src')
+//         // console.log(src)
+//         // console.log('\n======================')
+//       }
+//       if (fileRegex.test(id)) {
+//         return {
+//           code: compileFileToJS(src),
+//           map: null // provide source map if available
+//         }
+//       }
+//     }
+//   }
+// }
 
 // https://vitejs.dev/config/
 export default {
@@ -34,6 +67,48 @@ export default {
     ],
   },
   plugins: [
-    vue()
+    vue({
+      include: [/\.vue$/, /\.md$/], // <--
+    }),
+    Markdown({
+      // markdownItOptions: {
+      //   html: true,
+      //   linkify: true,
+      //   typographer: true,
+      // },
+      markdownItSetup(md) {
+        md.use(mdContainer, 'demo', {
+          validate(params) {
+            return !!params.trim().match(/^demo\s*(.*)$/)
+          },
+      
+          render(tokens, idx) {
+            const m = tokens[idx].info.trim().match(/^demo\s*(.*)$/)
+            if (tokens[idx].nesting === 1 /* means the tag is opening */) {
+              const sourceFileToken = tokens[idx + 2]
+              console.log('sourceFileToken')
+              console.log(sourceFileToken)
+              if (!sourceFileToken) return  
+              let source = ''
+              const sourceFile = sourceFileToken.children?.[0].content ?? ''
+      
+              if (sourceFileToken.type === 'inline') {
+                source = fs.readFileSync(
+                  path.resolve(src, 'examples', `${sourceFile}.vue`),
+                  'utf-8'
+                )
+              }
+              return `<Demo source="${encodeURIComponent(
+                highlight(source, 'vue')
+              )}"
+                path="${sourceFile}">`
+            } else {
+              return '</Demo>'
+            }
+          },
+        })
+      },
+    }),
+    // myPlugin()
   ]
 }

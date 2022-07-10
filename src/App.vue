@@ -1,7 +1,6 @@
 <template>
-  <div>
-    <FormBoxDemo />
-    <!-- <form-test /> -->
+  <div class="app">
+    <router-view />
   </div>
 </template>
 

@@ -12,21 +12,25 @@ import {
   TimeSelect as ElTimeSelect,
   DatePicker as ElDatePicker
 } from 'element-ui'
-import { toString, find } from '../utils'
+import { toString, find, omitBy } from '../utils'
 import { h } from 'vue'
 
-function useFormInput(props, context) {
+function useFormInput(props, context, options = { onKeyup: null }) {
+  const { onKeyup } = options
+  const { emit } = context
+
+  const nativeOn = omitBy({ keyup: onKeyup }, (item) => !item)
 
   function onInput(value) {
-    context.emit('input', value)
+    emit('input', value)
   }
 
   function onChange(value) {
-    context.emit('change', value)
+    emit('change', value)
   }
 
   function onBlur(value) {
-    context.emit('blur', value)
+    emit('blur', value)
   }
 
   const inputMap = [
@@ -43,7 +47,8 @@ function useFormInput(props, context) {
             onInput(newValue)
           },
           blur: onBlur,
-        }
+        },
+        nativeOn,
       })
     },
     {
@@ -55,7 +60,8 @@ function useFormInput(props, context) {
         on: {
           change: onInput,
           blur: onBlur,
-        }
+        },
+        nativeOn
       }, props.options.map(
         (item) => h(ElOption,
           {

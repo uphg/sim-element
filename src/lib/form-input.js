@@ -3,7 +3,10 @@ import useFormInput from './use-form-input'
 export default {
   name: 'SFormBox',
   props: {
-    value: [String, Number, Array, Boolean, Date],
+    value: {
+      type: [String, Number, Array, Boolean, Date],
+      default: ''
+    },
     type: {
       type: String,
       default: 'text'
@@ -14,6 +17,9 @@ export default {
     exclude: [RegExp, String, Number]
   },
   setup(props, context) {
-    return useFormInput(props, context)
+    return useFormInput(props, context, { onKeyup(event) {
+      if (event.keyCode !== 13) return
+      console.log('执行回车') 
+    } })
   }
 }

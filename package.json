@@ -7,14 +7,33 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "vue": "^2.7.3"
+    "@vueuse/core": "^8.9.1",
+    "chalk": "^5.0.1",
+    "consola": "^2.15.3",
+    "escape-html": "^1.0.3",
+    "highlight.js": "^11.5.1",
+    "markdown-it": "^13.0.1",
+    "markdown-it-container": "^3.0.0",
+    "prismjs": "^1.28.0",
+    "vue": "^2.7.3",
+    "vue-router": "3"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^2.2.0",
     "@vitejs/plugin-vue2": "^1.1.2",
     "element-ui": "2.15.7",
     "vite": "^2.8.0",
+    "vite-plugin-md": "^0.18.1",
     "vite-plugin-vue2": "^2.0.1",
     "vue-template-compiler": "^2.7.3"
+  },
+  "pnpm": {
+    "peerDependencyRules": {
+      "ignoreMissing": [
+        "babel-loader"
+      ],
+      "allowedVersions": {
+        "@angular/common": "13"
+      }
+    }
   }
 }

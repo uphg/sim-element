@@ -4,6 +4,8 @@ import { Form, FormItem, createFormGlobalField, FormInput } from './lib'
 import Demo from './components/demo.vue'
 import { globalFields } from './config'
 import 'element-ui/lib/theme-chalk/index.css';
+import 'github-markdown-css'
+import './styles/index.scss'
 
 
 Vue.component('t-form', Form)

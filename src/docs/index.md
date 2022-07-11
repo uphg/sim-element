@@ -1,12 +1,10 @@
----
-title: Form 表单
----
+# Sim Element
 
 ## 使用表单
 
 :::demo
 
-demo/hello
+hello
 
 :::
 

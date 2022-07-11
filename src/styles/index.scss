@@ -1,0 +1,80 @@
+/**
+ * prism.js tomorrow night eighties for JavaScript, CoffeeScript, CSS and HTML.
+ * Based on https://github.com/chriskempson/tomorrow-theme
+ *
+ * @author Rose Pritchard
+ */
+.token.comment,
+.token.block-comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+  color: #848486;
+}
+
+.token.punctuation {
+  color: #a8a9cc;
+}
+
+.token.tag,
+.token.attr-name,
+.token.namespace,
+.token.deleted {
+  color: #3182bd;
+}
+
+.token.function-name {
+  color: #5286bc;
+}
+
+.token.boolean,
+.token.number,
+.token.function {
+  color: #c25205;
+}
+
+.token.property,
+.token.class-name,
+.token.constant,
+.token.symbol {
+  color: #839b00;
+}
+
+.token.selector,
+.token.important,
+.token.atrule,
+.token.keyword,
+.token.builtin {
+  color: #9c71b7;
+}
+
+.token.string,
+.token.char,
+.token.attr-value,
+.token.regex,
+.token.variable {
+  color: #0b8235;
+}
+
+.token.operator,
+.token.entity,
+.token.url {
+  color: #4ba8af;
+}
+
+.token.important,
+.token.bold {
+  font-weight: bold;
+}
+
+.token.italic {
+  font-style: italic;
+}
+
+.token.entity {
+  cursor: help;
+}
+
+.token.inserted {
+  color: green;
+}

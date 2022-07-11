@@ -1,4 +1,5 @@
 import {
+  Button as ElButton,
   Input as ElInput,
   Select as ElSelect,
   Option as ElOption,
@@ -15,11 +16,23 @@ import {
 import { toString, find, omitBy } from '../utils'
 import { h } from 'vue'
 
-function useFormInput(props, context, options = { onKeyup: null }) {
+function useInput(props, context, options = { onKeyup: null }) {
   const { onKeyup } = options
   const { emit } = context
 
   const nativeOn = omitBy({ keyup: onKeyup }, (item) => !item)
+
+  function onClick(event) {
+    emit('click', event)
+  }
+
+  function onActive(event) {
+    emit('active', event)
+  }
+
+  function onFocus(event) {
+    emit('focus', event)
+  }
 
   function onInput(value) {
     emit('input', value)
@@ -35,6 +48,23 @@ function useFormInput(props, context, options = { onKeyup: null }) {
 
   const inputMap = [
     {
+      type: ['button'],
+      render: () => h(ElButton, {
+        props: {
+          type: props.hue
+        },
+        on: {
+          click: onClick,
+        },
+        nativeOn: {
+          active: onActive,
+          focus: onFocus,
+          blur: onBlur,
+          ...nativeOn
+        },
+      }, [props.text ? props.text : context.slots.default()])
+    },
+    {
       type: ['text', 'password', 'textarea'],
       render: () => h(ElInput, {
         props: {
@@ -48,7 +78,23 @@ function useFormInput(props, context, options = { onKeyup: null }) {
           },
           blur: onBlur,
         },
+        attrs: context.attrs,
         nativeOn,
+      })
+    },
+    {
+      type: 'number',
+      render: () => h(ElInputNumber, {
+        props: {
+          value: props.value
+        },
+        on: {
+          input(newVal) {
+            if (props.value === newVal) return
+            onInput(newVal)
+          },
+          change: onChange
+        }
       })
     },
     {
@@ -108,21 +154,6 @@ function useFormInput(props, context, options = { onKeyup: null }) {
           },
         }, [item.label])
       ))
-    },
-    {
-      type: 'number',
-      render: () => h(ElInputNumber, {
-        props: {
-          value: props.value
-        },
-        on: {
-          input(newVal) {
-            if (props.value === newVal) return
-            onInput(newVal)
-          },
-          change: onChange
-        }
-      })
     },
     {
       type: 'switch',
@@ -185,4 +216,4 @@ function useFormInput(props, context, options = { onKeyup: null }) {
   return render
 }
 
-export default useFormInput
+export default useInput

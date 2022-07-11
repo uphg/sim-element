@@ -1,8 +1,3 @@
 # Simp Element
 
-easier to use Element UI
-
-```
-    "happy-dom": "^6.0.2",
-    "markdown-it": "^13.0.1",
-```
+更加简单易用，更具数据化的 Element 组件 

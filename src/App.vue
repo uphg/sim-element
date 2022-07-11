@@ -5,12 +5,10 @@
 </template>
 
 <script>
-import FormTest from "./components/form-test.vue"
-import FormBoxDemo from "./components/form-box-demo.vue"
 import Docs from './docs/index.md'
 
 export default {
-  components: { FormTest, FormBoxDemo, Docs }
+  components: { Docs }
 }
 </script>
 

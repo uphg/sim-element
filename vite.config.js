@@ -45,13 +45,13 @@ export default {
     }),
     Markdown({
       markdownItSetup(md) {
-        md.use(mdContainer, 'demo', {
+        md.use(mdContainer, 'code', {
           validate(params) {
-            return !!params.trim().match(/^demo\s*(.*)$/)
+            return !!params.trim().match(/^code\s*(.*)$/)
           },
 
           render(tokens, idx) {
-            const m = tokens[idx].info.trim().match(/^demo\s*(.*)$/)
+            const m = tokens[idx].info.trim().match(/^code\s*(.*)$/)
             if (tokens[idx].nesting === 1 /* means the tag is opening */) {
               const sourceFileToken = tokens[idx + 2]
               if (!sourceFileToken) return
@@ -64,12 +64,12 @@ export default {
                   'utf-8'
                 )
               }
-              return `<Demo source="${encodeURIComponent(
+              return `<s-code source="${encodeURIComponent(
                 highlight(source, 'vue')
               )}"
                 path="${sourceFile}">`
             } else {
-              return '</Demo>'
+              return '</s-code>'
             }
           },
         })

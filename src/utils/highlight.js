@@ -1,5 +1,4 @@
 // ref https://github.com/vuejs/vitepress/blob/main/src/node/markdown/plugins/highlight.ts
-// import chalk from 'chalk'
 import escapeHtml from 'escape-html'
 import prism from 'prismjs'
 // import consola from 'consola'
@@ -41,12 +40,6 @@ export const highlight = (str, lang) => {
     try {
       loadLanguages([lang])
     } catch {
-      // eslint-disable-next-line no-console
-      // consola.warn(
-      //   chalk.yellow(
-      //     `[vitepress] Syntax highlight for language "${lang}" is not supported.`
-      //   )
-      // )
     }
   }
   if (prism.languages[lang]) {

@@ -46,168 +46,159 @@ function useInput(props, context, options = { onKeyup: null }) {
     emit('blur', value)
   }
 
-  const inputMap = [
-    {
-      type: ['button'],
-      render: () => h(ElButton, {
-        props: {
-          type: props.hue
+  const inputMap = [{
+    type: ['button'],
+    render: () => h(ElButton, {
+      props: {
+        type: props.hue
+      },
+      on: {
+        click: onClick,
+      },
+      nativeOn: {
+        active: onActive,
+        focus: onFocus,
+        blur: onBlur,
+        ...nativeOn
+      },
+    }, [props.text ? props.text : context.slots.default()])
+  }, {
+    type: ['text', 'password', 'textarea'],
+    render: () => h(ElInput, {
+      props: {
+        type: props.type,
+        value: props.value,
+        clearable: props.clearable
+      },
+      on: {
+        input(value) {
+          const newValue = props.exclude ? toString(value).replace(props.exclude, '') : value
+          onInput(newValue)
         },
-        on: {
-          click: onClick,
+        blur: onBlur,
+      },
+      attrs: context.attrs,
+      nativeOn,
+    })
+  }, {
+    type: 'number',
+    render: () => h(ElInputNumber, {
+      props: {
+        value: props.value
+      },
+      on: {
+        input(newVal) {
+          if (props.value === newVal) return
+          onInput(newVal)
         },
-        nativeOn: {
-          active: onActive,
-          focus: onFocus,
-          blur: onBlur,
-          ...nativeOn
-        },
-      }, [props.text ? props.text : context.slots.default()])
-    },
-    {
-      type: ['text', 'password', 'textarea'],
-      render: () => h(ElInput, {
-        props: {
-          type: props.type,
-          value: props.value
-        },
-        on: {
-          input(value) {
-            const newValue = props.exclude ? toString(value).replace(props.exclude, '') : value
-            onInput(newValue)
-          },
-          blur: onBlur,
-        },
-        attrs: context.attrs,
-        nativeOn,
-      })
-    },
-    {
-      type: 'number',
-      render: () => h(ElInputNumber, {
-        props: {
-          value: props.value
-        },
-        on: {
-          input(newVal) {
-            if (props.value === newVal) return
-            onInput(newVal)
-          },
-          change: onChange
-        }
-      })
-    },
-    {
-      type: 'select',
-      render: () => h(ElSelect, {
-        props: {
-          value: props.value
-        },
-        on: {
-          change: onInput,
-          blur: onBlur,
-        },
-        nativeOn
-      }, props.options.map(
-        (item) => h(ElOption,
-          {
-            props: {
-              label: item.label,
-              value: item.value,
-            }
-          }
-        )
-      ))
-    },
-    {
-      type: 'radio',
-      render: () => h(ElRadioGroup, {
-        props: {
-          value: props.value
-        }
-      }, props.options.map(
-        (item) => h(ElRadio, {
+        change: onChange
+      }
+    })
+  }, {
+    type: 'select',
+    render: () => h(ElSelect, {
+      props: {
+        value: props.value,
+        clearable: props.clearable
+      },
+      on: {
+        input: onInput,
+        change: onChange,
+        blur: onBlur,
+      },
+      nativeOn
+    }, props.options.map(
+      (item) => h(ElOption,
+        {
           props: {
-            label: item.value,
-          },
-          on: {
-            change: () => {
-              onInput(item.value)
-            }
+            label: item.label,
+            value: item.value,
           }
-        }, [item.label])
-      ))
-    },
-    {
-      type: 'checkbox',
-      render: () => h(ElCheckboxGroup, {
-        props: {
-          value: props.value
-        },
-        on: {
-          input: onInput
         }
-      }, props.options.map(
-        (item) => h(ElCheckbox, {
-          props: {
-            label: item.value
-          },
-        }, [item.label])
-      ))
-    },
-    {
-      type: 'switch',
-      render: () => h(ElSwitch, {
+      )
+    ))
+  }, {
+    type: 'radio',
+    render: () => h(ElRadioGroup, {
+      props: {
+        value: props.value
+      },
+      on: {
+        input: onInput,
+        change: onChange
+      }
+    }, props.options.map(
+      (item) => h(ElRadio, {
         props: {
-          value: props.value
-        },
-        on: {
-          input: onInput,
-          change: onChange
+          label: item.value,
         }
-      })
-    },
-    {
-      type: 'slider',
-      render: () => h(ElSlider, {
+      }, [item.label])
+    ))
+  }, {
+    type: 'checkbox',
+    render: () => h(ElCheckboxGroup, {
+      props: {
+        value: props.value
+      },
+      on: {
+        input: onInput
+      }
+    }, props.options.map(
+      (item) => h(ElCheckbox, {
         props: {
-          value: props.value
+          label: item.value
         },
-        on: {
-          input: onInput,
-          change: onChange
-        }
-      })
-    },
-    {
-      type: 'time',
-      render: () => h(ElTimeSelect, {
-        props: {
-          value: props.value,
-          pickerOptions: props.pickerOptions,
-          placeholder: props.placeholder
-        },
-        on: {
-          input: onInput,
-          change: onChange
-        }
-      })
-    },
-    {
-      type: ['date', 'datetime'],
-      render: () => h(ElDatePicker, {
-        props: {
-          type: props.type,
-          value: props.value,
-          placeholder: props.placeholder
-        },
-        on: {
-          input: onInput,
-          change: onChange
-        }
-      })
-    },
-  ]
+      }, [item.label])
+    ))
+  }, {
+    type: 'switch',
+    render: () => h(ElSwitch, {
+      props: {
+        value: props.value
+      },
+      on: {
+        input: onInput,
+        change: onChange
+      }
+    })
+  }, {
+    type: 'slider',
+    render: () => h(ElSlider, {
+      props: {
+        value: props.value
+      },
+      on: {
+        input: onInput,
+        change: onChange
+      }
+    })
+  }, {
+    type: 'time',
+    render: () => h(ElTimeSelect, {
+      props: {
+        value: props.value,
+        pickerOptions: props.pickerOptions,
+        placeholder: props.placeholder
+      },
+      on: {
+        input: onInput,
+        change: onChange
+      }
+    })
+  }, {
+    type: ['date', 'datetime'],
+    render: () => h(ElDatePicker, {
+      props: {
+        type: props.type,
+        value: props.value,
+        placeholder: props.placeholder
+      },
+      on: {
+        input: onInput,
+        change: onChange
+      }
+    })
+  }]
 
   const render = find(inputMap, ({ type }) => (
     typeof type === 'string' ? props.type === type : type.indexOf(props.type) !== -1

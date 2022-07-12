@@ -1,15 +1,14 @@
 <template>
   <div class="app">
     <Docs />
+    <Test />
   </div>
 </template>
 
-<script>
+<script setup>
 import Docs from './docs/index.md'
+import Test from './components/test.vue'
 
-export default {
-  components: { Docs }
-}
 </script>
 
 <style>

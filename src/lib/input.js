@@ -15,13 +15,13 @@ export default {
       type: String,
       default: 'text'
     },
+    options: [Array, Object],
+    clearable: Boolean,
+    pickerOptions: [Object],
     hue: {
       type: String,
       default: 'default'
     },
-    options: [Array, Object],
-    pickerOptions: [Object],
-    // placeholder: String,
     exclude: [RegExp, String, Number]
   },
   setup(props, context) {

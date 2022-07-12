@@ -73,6 +73,34 @@ number/base
 
 属性配置见：[InputNumber 计数器 - Attributes](https://element.eleme.cn/#/zh-CN/component/input-number#attributes)
 
+## Select 选择器
+
+设置 `type="select"`，使用计数器
+
+<s-demo :component="SelectBase" />
+
+:::code
+
+select/base
+
+:::
+
+属性配置见：[Select 选择器 - Select Attributes](https://element.eleme.io/#/zh-CN/component/select#select-attributes)
+
+## Radio 单项选择
+
+设置 `type="radio"`，使用计数器
+
+<s-demo :component="RadioBase" />
+
+:::code
+
+radio/base
+
+:::
+
+属性配置见：[Select 选择器 - Select Attributes](https://element.eleme.io/#/zh-CN/component/select#select-attributes)
+
 
 <script setup>
 import ButtonBase from '../examples/button/base.vue'
@@ -80,4 +108,6 @@ import InputBase from '../examples/input/base.vue'
 import InputPassword from '../examples/input/password.vue'
 import InputTextarea from '../examples/input/textarea.vue'
 import NumberBase from '../examples/number/base.vue'
+import SelectBase from '../examples/select/base.vue'
+import RadioBase from '../examples/radio/base.vue'
 </script>

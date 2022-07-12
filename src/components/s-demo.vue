@@ -1,6 +1,7 @@
 <template>
   <div class="sim-demo">
-    <component :is="component" />
+    <slot v-if="$slots.default" />
+    <component v-else :is="component" />
   </div>
 </template>
 

@@ -13,8 +13,8 @@ import {
   TimeSelect as ElTimeSelect,
   DatePicker as ElDatePicker
 } from 'element-ui'
-import { toString, find, omitBy } from '../utils'
-import { h } from 'vue'
+import { h, toRef } from 'vue'
+import { toString, find, omitBy, pick } from '../utils'
 
 function useInput(props, context, options = { onKeyup: null }) {
   const { onKeyup } = options
@@ -24,10 +24,6 @@ function useInput(props, context, options = { onKeyup: null }) {
 
   function onClick(event) {
     emit('click', event)
-  }
-
-  function onActive(event) {
-    emit('active', event)
   }
 
   function onFocus(event) {
@@ -56,30 +52,49 @@ function useInput(props, context, options = { onKeyup: null }) {
         click: onClick,
       },
       nativeOn: {
-        active: onActive,
         focus: onFocus,
         blur: onBlur,
         ...nativeOn
       },
-    }, [props.text ? props.text : context.slots.default()])
+    }, [props.text ? props.text : context.slots?.default?.()])
   }, {
     type: ['text', 'password', 'textarea'],
-    render: () => h(ElInput, {
-      props: {
-        type: props.type,
-        value: props.value,
-        clearable: props.clearable
-      },
-      on: {
-        input(value) {
-          const newValue = props.exclude ? toString(value).replace(props.exclude, '') : value
-          onInput(newValue)
+    render: () => {
+      console.log('context.slots')
+      console.log(context.slots)
+      return h(ElInput, {
+        props: {
+          type: props.type,
+          value: props.value,
+          clearable: props.clearable,
+          disabled: props.disabled,
+          showPassword: props.showPassword,
+          suffixIcon: props.suffixIcon,
+          prefixIcon: props.prefixIcon
         },
-        blur: onBlur,
-      },
-      attrs: context.attrs,
-      nativeOn,
-    })
+        attrs: context.attrs,
+        on: {
+          input(value) {
+            const newValue = props.exclude ? toString(value).replace(props.exclude, '') : value
+            onInput(newValue)
+          },
+          change: onChange,
+          blur: onBlur,
+        },
+        nativeOn,
+        scopedSlots: {
+          suffix: () => h(context.slots?.suffix?.()),
+          prefix: () => h(context.slots?.prefix?.()),
+        }
+      }, /* [
+        context.slots?.prefix && h(context.slots.prefix(), {
+          slot: 'prefix'
+        }),
+        context.slots?.suffix && h(context.slots.suffix(), {
+          slot: 'suffix'
+        })
+      ] */)
+    }
   }, {
     type: 'number',
     render: () => h(ElInputNumber, {
@@ -91,7 +106,8 @@ function useInput(props, context, options = { onKeyup: null }) {
           if (props.value === newVal) return
           onInput(newVal)
         },
-        change: onChange
+        change: onChange,
+        blur: onBlur,
       }
     })
   }, {
@@ -101,6 +117,7 @@ function useInput(props, context, options = { onKeyup: null }) {
         value: props.value,
         clearable: props.clearable
       },
+      attrs: context.attrs,
       on: {
         input: onInput,
         change: onChange,
@@ -177,8 +194,7 @@ function useInput(props, context, options = { onKeyup: null }) {
     render: () => h(ElTimeSelect, {
       props: {
         value: props.value,
-        pickerOptions: props.pickerOptions,
-        placeholder: props.placeholder
+        pickerOptions: props.pickerOptions
       },
       on: {
         input: onInput,
@@ -190,8 +206,7 @@ function useInput(props, context, options = { onKeyup: null }) {
     render: () => h(ElDatePicker, {
       props: {
         type: props.type,
-        value: props.value,
-        placeholder: props.placeholder
+        value: props.value
       },
       on: {
         input: onInput,

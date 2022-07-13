@@ -7,16 +7,17 @@ export default {
       type: [String, Number, Array, Boolean, Date],
       default: ''
     },
-    text: {
-      type: String,
-      default: ''
-    },
     type: {
       type: String,
       default: 'text'
     },
-    options: [Array, Object],
+    text: String,
+    disabled: Boolean,
     clearable: Boolean,
+    showPassword: Boolean,
+    suffixIcon: String,
+    prefixIcon: String,
+    options: [Array, Object],
     pickerOptions: [Object],
     hue: {
       type: String,
@@ -25,9 +26,11 @@ export default {
     exclude: [RegExp, String, Number]
   },
   setup(props, context) {
-    return useInput(props, context, { onKeyup(event) {
-      if (event.keyCode !== 13) return
-      console.log('执行回车') 
-    } })
+    return useInput(props, context, {
+      onKeyup(event) {
+        if (event.keyCode !== 13) return
+        console.log('执行回车')
+      }
+    })
   }
 }

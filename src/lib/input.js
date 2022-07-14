@@ -50,6 +50,10 @@ export default {
     // select
     noMatchText: String,
     noDataText: String,
+    popperAppendToBody: {
+      type: Boolean,
+      default: true
+    },
 
     options: [Array, Object],
     pickerOptions: [Object],

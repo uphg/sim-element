@@ -1,15 +1,8 @@
 <template>
   <div class="app">
-    <Docs />
-    <Test />
+    <router-view></router-view>
   </div>
 </template>
-
-<script setup>
-import Docs from './docs/index.md'
-import Test from './components/test.vue'
-
-</script>
 
 <style>
 .app {

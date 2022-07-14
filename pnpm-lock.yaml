@@ -13,10 +13,12 @@ specifiers:
   vite-plugin-md: ^0.18.1
   vite-plugin-vue2: ^2.0.1
   vue: ^2.7.3
+  vue-router: 3.5.4
   vue-template-compiler: ^2.7.3
 
 dependencies:
   vue: 2.7.4
+  vue-router: 3.5.4
 
 devDependencies:
   '@vitejs/plugin-vue2': 1.1.2_vite@2.9.14+vue@2.7.4
@@ -2554,6 +2556,10 @@ packages:
     dependencies:
       vue: 2.7.4
     dev: true
+
+  /vue-router/3.5.4:
+    resolution: {integrity: sha512-x+/DLAJZv2mcQ7glH2oV9ze8uPwcI+H+GgTgTmb5I55bCgY3+vXWIsqbYUzbBSZnwFHEJku4eoaH/x98veyymQ==}
+    dev: false
 
   /vue-template-babel-compiler/1.2.0_pbm7qwc5vtrk4c7psocs7h5ncu:
     resolution: {integrity: sha512-CScBSX1/wCdmmZ/Lvj/63p2CCVTS0FMj0F69VRBo73CuJrjvPAPGmeNJ7D/cwt/VS2PduowRWbO8N4Zh4Z3b0g==}

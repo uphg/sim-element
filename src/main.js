@@ -7,6 +7,7 @@ import Code from './components/s-code.vue'
 import Demo from './components/s-demo.vue'
 import { Form, FormItem, createFormGlobalField, Input } from './lib'
 import { globalFields } from './config'
+import router from './router'
 
 Vue.component('s-demo', Demo)
 Vue.component('s-code', Code)
@@ -17,5 +18,6 @@ Vue.component('s-form-item', FormItem)
 
 new Vue({
   provide: createFormGlobalField(globalFields),
+  router,
   render: h => h(App),
 }).$mount('#app')

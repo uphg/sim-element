@@ -1,7 +1,5 @@
 <template>
   <div class="test">
-    <br>
-    <hr>
     <h2>Button</h2>
     <s-demo>
       <s-input type="button" />
@@ -9,40 +7,30 @@
     </s-demo>
     <h2>Input - text</h2>
     <s-demo>
-      <s-input v-model="inputText" />
-      <s-input v-model="inputText" clearable/>
-      <s-input v-model="inputText" disabled />
+      <s-input v-model="input1" />
+      <s-input v-model="input1" clearable/>
+      <s-input v-model="input1" disabled />
       <br><br>
-      <s-input type="password" v-model="inputText" show-password/>
-      <s-input type="password" v-model="inputText" show-password clearable/>
+      <s-input type="password" v-model="input1" show-password/>
+      <s-input type="password" v-model="input1" show-password clearable/>
       <br><br>
-      <s-input type="textarea" v-model="inputText"></s-input>
+      <s-input type="textarea" v-model="input1"></s-input>
       <br><br>
       属性方式：
-      <s-input suffix-icon="el-icon-date" placeholder="请选择日期" v-model="inputText"></s-input>
-      <s-input prefix-icon="el-icon-search" placeholder="请输入内容" v-model="inputText"></s-input>
+      <s-input suffix-icon="el-icon-date" placeholder="请选择日期" v-model="input1"></s-input>
+      <s-input prefix-icon="el-icon-search" placeholder="请输入内容" v-model="input1"></s-input>
       <br><br>
       slot方式：
       <s-input
         placeholder="请选择日期"
-        v-model="inputText">
+        v-model="input1">
         <i slot="suffix" class="el-input__icon el-icon-date"></i>
       </s-input>
       <s-input
         placeholder="请输入内容"
-        v-model="inputText">
+        v-model="input1">
         <i slot="prefix" class="el-input__icon el-icon-search"></i>
       </s-input>
-      <!-- <el-input
-        placeholder="请选择日期"
-        v-model="inputText">
-        <i slot="suffix" class="el-input__icon el-icon-date"></i>
-      </el-input>
-      <el-input
-        placeholder="请输入内容"
-        v-model="inputText">
-        <i slot="prefix" class="el-input__icon el-icon-search"></i>
-      </el-input> -->
     </s-demo>
     <h2>Select</h2>
     <s-demo>
@@ -89,7 +77,7 @@ const options = [
   { label: '选项三', value: 2 }
 ]
 
-const inputText = ref(null)
+const input1 = ref(null)
 
 // Button
 

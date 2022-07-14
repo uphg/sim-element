@@ -48,12 +48,23 @@ export default {
 
 
     // select
-    noMatchText: String,
-    noDataText: String,
+    multiple: Boolean,
+    multipleLimit: {
+      type: Number,
+      default: 0
+    },
+    collapseTags: Boolean,
     popperAppendToBody: {
       type: Boolean,
       default: true
     },
+
+    // cascader
+    showAllLevels: {
+      type: Boolean,
+      default: true
+    },
+    props: Object,
 
     options: [Array, Object],
     pickerOptions: [Object],

@@ -2,6 +2,7 @@ import {
   Button as ElButton,
   Input as ElInput,
   Select as ElSelect,
+  Cascader as ElCascader,
   Option as ElOption,
   RadioGroup as ElRadioGroup,
   Radio as ElRadio,
@@ -121,12 +122,13 @@ function useInput(props, context, options = { onKeyup: null }) {
       props: {
         value: props.value,
         disabled: props.disabled,
+        step: props.step,
+        stepStrictly: props.stepStrictly,
+        precision: props.precision,
         controls: props.controls,
         controlsPosition: props.controlsPosition,
         size: props.size,
-        placeholder: context.attrs.placeholder,
-        noDataText: props.noDataText,
-        popperAppendToBody: props.popperAppendToBody,
+        placeholder: context.attrs.placeholder,        
         min: context.attrs.min,
         max: context.attrs.max,
         name: context.attrs.name,
@@ -148,6 +150,10 @@ function useInput(props, context, options = { onKeyup: null }) {
         clearable: props.clearable,
         disabled: props.disabled,
         size: props.size,
+        multiple: props.multiple,
+        multipleLimit: props.multipleLimit,
+        collapseTags: props.collapseTags,
+        popperAppendToBody: props.popperAppendToBody,
         autocomplete: context.attrs.autocomplete
       },
       attrs: context.attrs,
@@ -169,6 +175,23 @@ function useInput(props, context, options = { onKeyup: null }) {
         }
       })
     ))
+  }, {
+    type: 'cascader',
+    render: () => h(ElCascader, {
+      props: {
+        value: props.value,
+        disabled: props.disabled,
+        options: props.options,
+        clearable: props.clearable,
+        showAllLevels: props.showAllLevels,
+        props: props.props,
+        collapseTags: props.collapseTags
+      },
+      on: {
+        input: onInput,
+        change: onChange
+      }
+    })
   }, {
     type: 'radio',
     render: () => h(ElRadioGroup, {

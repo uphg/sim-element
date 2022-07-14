@@ -2,12 +2,12 @@
   <div class="test">
     <h2>Button</h2>
     <s-demo>
-      <s-input type="button" />
-      <s-input type="button" >hi</s-input>
+      <s-input type="button" text="hello"></s-input>
+      <s-input type="button">hi</s-input>
     </s-demo>
     <h2>Input - text</h2>
     <s-demo>
-      <s-input v-model="input1" />
+      <s-input v-model="input1" tabindex="1" />
       <s-input v-model="input1" clearable/>
       <s-input v-model="input1" disabled />
       <br><br>
@@ -20,7 +20,7 @@
       <s-input suffix-icon="el-icon-date" placeholder="请选择日期" v-model="input1"></s-input>
       <s-input prefix-icon="el-icon-search" placeholder="请输入内容" v-model="input1"></s-input>
       <br><br>
-      slot方式：
+      slot 方式：
       <s-input
         placeholder="请选择日期"
         v-model="input1">
@@ -31,6 +31,31 @@
         v-model="input1">
         <i slot="prefix" class="el-input__icon el-icon-search"></i>
       </s-input>
+      <br><br>
+      <s-input type="textarea" v-model="input1" autosize></s-input>
+      <br><br>
+      <s-input type="textarea" v-model="input1" :autosize="{ minRows: 2, maxRows: 4}"></s-input>
+      <br><br>
+      <div>
+        <s-input placeholder="请输入内容" v-model="input1">
+          <template slot="prepend">Http://</template>
+        </s-input>
+      </div>
+      <div style="margin-top: 15px;">
+        <s-input placeholder="请输入内容" v-model="input1">
+          <template slot="append">.com</template>
+        </s-input>
+      </div>
+      <div style="margin-top: 15px;">
+        <s-input placeholder="请输入内容" v-model="input1" class="input-with-select">
+          <s-input type="select" slot="prepend" v-model="select" :options="options" placeholder="请选择"></s-input>
+          <s-input type="button" slot="append" icon="el-icon-search"></s-input>
+        </s-input>
+      </div>
+    </s-demo>
+    <h2>Input - Number</h2>
+    <s-demo>
+      <s-input type="number" v-model="number1" :max="10" />
     </s-demo>
     <h2>Select</h2>
     <s-demo>
@@ -74,10 +99,15 @@ import { Input as ElInput } from 'element-ui'
 const options = [
   { label: '选项一', value: 0 },
   { label: '选项二', value: 1 },
-  { label: '选项三', value: 2 }
+  { label: '选项三', value: 2, disabled: true },
+  { label: '选项四', value: 3 },
 ]
 
+// Input
 const input1 = ref(null)
+
+// Input Number
+const number1 = ref(0)
 
 // Button
 
@@ -115,6 +145,15 @@ function onChangeCheckbox(value) {
 .test {
   .el-input {
     margin-right: 1em;
+  }
+  .el-select .el-input {
+    width: 130px;
+  }
+  .input-with-select .el-input-group__prepend {
+    background-color: #fff;
+  }
+  .el-input-group {
+    width: 640px;
   }
 }
 </style>

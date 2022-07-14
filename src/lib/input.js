@@ -17,6 +17,40 @@ export default {
     showPassword: Boolean,
     suffixIcon: String,
     prefixIcon: String,
+    size: String,
+    maxlength: [String, Number],
+    minlength: [String, Number],
+    showWordLimit: Boolean,
+
+    // input - number
+    step: {
+      type: Number,
+      default: 1
+    },
+    stepStrictly: {
+      type: Boolean,
+      default: false
+    },
+    precision: {
+      type: Number,
+      validator(val) {
+        return val >= 0 && val === parseInt(val, 10);
+      }
+    },
+    controls: {
+      type: Boolean,
+      default: true
+    },
+    controlsPosition: {
+      type: String,
+      default: ''
+    },
+
+
+    // select
+    noMatchText: String,
+    noDataText: String,
+
     options: [Array, Object],
     pickerOptions: [Object],
     hue: {

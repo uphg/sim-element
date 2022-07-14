@@ -13,7 +13,7 @@ import {
   TimeSelect as ElTimeSelect,
   DatePicker as ElDatePicker
 } from 'element-ui'
-import { h, toRef } from 'vue'
+import { h, ref, toRef } from 'vue'
 import { toString, find, omitBy, pick } from '../utils'
 
 function useInput(props, context, options = { onKeyup: null }) {
@@ -21,6 +21,8 @@ function useInput(props, context, options = { onKeyup: null }) {
   const { emit } = context
 
   const nativeOn = omitBy({ keyup: onKeyup }, (item) => !item)
+
+  const inputRef = ref(null)
 
   function onClick(event) {
     emit('click', event)
@@ -38,15 +40,28 @@ function useInput(props, context, options = { onKeyup: null }) {
     emit('change', value)
   }
 
+  function onVisibleChange() {
+    emit('visible-change', value)
+  }
+
   function onBlur(value) {
     emit('blur', value)
+  }
+
+  function onClear() {
+    emit('clear', value)
+  }
+
+  function focus() {
+    inputRef.value.focus()
   }
 
   const inputMap = [{
     type: ['button'],
     render: () => h(ElButton, {
       props: {
-        type: props.hue
+        type: props.hue,
+        size: props.size,
       },
       on: {
         click: onClick,
@@ -59,47 +74,62 @@ function useInput(props, context, options = { onKeyup: null }) {
     }, [props.text ? props.text : context.slots?.default?.()])
   }, {
     type: ['text', 'password', 'textarea'],
-    render: () => {
-      console.log('context.slots')
-      console.log(context.slots)
-      return h(ElInput, {
-        props: {
-          type: props.type,
-          value: props.value,
-          clearable: props.clearable,
-          disabled: props.disabled,
-          showPassword: props.showPassword,
-          suffixIcon: props.suffixIcon,
-          prefixIcon: props.prefixIcon
+    render: () => h(ElInput, {
+      ref: 'inputRef',
+      props: {
+        type: props.type,
+        value: props.value,
+        clearable: props.clearable,
+        disabled: props.disabled,
+        showPassword: props.showPassword,
+        suffixIcon: props.suffixIcon,
+        prefixIcon: props.prefixIcon,
+        maxlength: props.maxlength,
+        minlength: props.minlength,
+        showWordLimit: props.showWordLimit,
+        size: props.size,
+        clear: onClear
+      },
+      attrs: context.attrs,
+      on: {
+        input(value) {
+          const newValue = props.exclude ? toString(value).replace(props.exclude, '') : value
+          onInput(newValue)
         },
-        attrs: context.attrs,
-        on: {
-          input(value) {
-            const newValue = props.exclude ? toString(value).replace(props.exclude, '') : value
-            onInput(newValue)
-          },
-          change: onChange,
-          blur: onBlur,
-        },
-        nativeOn,
-        scopedSlots: {
-          suffix: () => h(context.slots?.suffix?.()),
-          prefix: () => h(context.slots?.prefix?.()),
-        }
-      }, /* [
-        context.slots?.prefix && h(context.slots.prefix(), {
-          slot: 'prefix'
-        }),
-        context.slots?.suffix && h(context.slots.suffix(), {
-          slot: 'suffix'
-        })
-      ] */)
-    }
+        change: onChange,
+        blur: onBlur,
+      },
+      nativeOn,
+    }, [
+      context.slots?.suffix && h('slot', {
+        slot: 'suffix'
+      }, context.slots.suffix()),
+      context.slots?.prefix && h('slot', {
+        slot: 'prefix'
+      }, context.slots.prefix()),
+      context.slots?.prepend && h('slot', {
+        slot: 'prepend'
+      }, context.slots.prepend()),
+      context.slots?.append && h('slot', {
+        slot: 'append'
+      }, context.slots.append())
+    ])
   }, {
     type: 'number',
+    attrs: context.attrs,
     render: () => h(ElInputNumber, {
       props: {
-        value: props.value
+        value: props.value,
+        disabled: props.disabled,
+        controls: props.controls,
+        controlsPosition: props.controlsPosition,
+        size: props.size,
+        placeholder: context.attrs.placeholder,
+        noDataText: props.noDataText,
+        popperAppendToBody: props.popperAppendToBody,
+        min: context.attrs.min,
+        max: context.attrs.max,
+        name: context.attrs.name,
       },
       on: {
         input(newVal) {
@@ -115,30 +145,36 @@ function useInput(props, context, options = { onKeyup: null }) {
     render: () => h(ElSelect, {
       props: {
         value: props.value,
-        clearable: props.clearable
+        clearable: props.clearable,
+        disabled: props.disabled,
+        size: props.size,
+        autocomplete: context.attrs.autocomplete
       },
       attrs: context.attrs,
       on: {
         input: onInput,
         change: onChange,
+        visibleChange: onVisibleChange,
         blur: onBlur,
+        clear: onClear
       },
       nativeOn
     }, props.options.map(
-      (item) => h(ElOption,
-        {
-          props: {
-            label: item.label,
-            value: item.value,
-          }
+      (item) => h(ElOption, {
+        props: {
+          label: item.label,
+          value: item.value,
+          disabled: item.disabled,
+          size: props.size,
         }
-      )
+      })
     ))
   }, {
     type: 'radio',
     render: () => h(ElRadioGroup, {
       props: {
-        value: props.value
+        value: props.value,
+        disabled: props.disabled,
       },
       on: {
         input: onInput,
@@ -148,6 +184,8 @@ function useInput(props, context, options = { onKeyup: null }) {
       (item) => h(ElRadio, {
         props: {
           label: item.value,
+          disabled: item.disabled,
+          size: props.size,
         }
       }, [item.label])
     ))
@@ -155,7 +193,8 @@ function useInput(props, context, options = { onKeyup: null }) {
     type: 'checkbox',
     render: () => h(ElCheckboxGroup, {
       props: {
-        value: props.value
+        value: props.value,
+        disabled: props.disabled,
       },
       on: {
         input: onInput
@@ -163,7 +202,9 @@ function useInput(props, context, options = { onKeyup: null }) {
     }, props.options.map(
       (item) => h(ElCheckbox, {
         props: {
-          label: item.value
+          label: item.value,
+          disabled: item.disabled,
+          size: props.size,
         },
       }, [item.label])
     ))
@@ -171,7 +212,9 @@ function useInput(props, context, options = { onKeyup: null }) {
     type: 'switch',
     render: () => h(ElSwitch, {
       props: {
-        value: props.value
+        value: props.value,
+        disabled: props.disabled,
+        size: props.size,
       },
       on: {
         input: onInput,
@@ -182,7 +225,9 @@ function useInput(props, context, options = { onKeyup: null }) {
     type: 'slider',
     render: () => h(ElSlider, {
       props: {
-        value: props.value
+        value: props.value,
+        disabled: props.disabled,
+        size: props.size,
       },
       on: {
         input: onInput,
@@ -194,7 +239,9 @@ function useInput(props, context, options = { onKeyup: null }) {
     render: () => h(ElTimeSelect, {
       props: {
         value: props.value,
-        pickerOptions: props.pickerOptions
+        pickerOptions: props.pickerOptions,
+        disabled: props.disabled,
+        size: props.size,
       },
       on: {
         input: onInput,
@@ -206,7 +253,9 @@ function useInput(props, context, options = { onKeyup: null }) {
     render: () => h(ElDatePicker, {
       props: {
         type: props.type,
-        value: props.value
+        value: props.value,
+        disabled: props.disabled,
+        size: props.size,
       },
       on: {
         input: onInput,

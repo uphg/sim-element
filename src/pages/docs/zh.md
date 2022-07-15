@@ -103,11 +103,11 @@ radio/base
 
 
 <script setup>
-import ButtonBase from '../examples/button/base.vue'
-import InputBase from '../examples/input/base.vue'
-import InputPassword from '../examples/input/password.vue'
-import InputTextarea from '../examples/input/textarea.vue'
-import NumberBase from '../examples/number/base.vue'
-import SelectBase from '../examples/select/base.vue'
-import RadioBase from '../examples/radio/base.vue'
+import ButtonBase from 'src/examples/button/base.vue'
+import InputBase from 'src/examples/input/base.vue'
+import InputPassword from 'src/examples/input/password.vue'
+import InputTextarea from 'src/examples/input/textarea.vue'
+import NumberBase from 'src/examples/number/base.vue'
+import SelectBase from 'src/examples/select/base.vue'
+import RadioBase from 'src/examples/radio/base.vue'
 </script>

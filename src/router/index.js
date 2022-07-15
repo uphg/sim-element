@@ -1,4 +1,20 @@
 import VueRouter from "vue-router";
+import Test from '../pages/test/index.vue'
+
+const toDocs = (name) => `../pages/docs/${name}.md`
+
+const createTestRoutes = () => {
+  const result = []
+  const pages = ['button', 'input', 'number', 'select', 'cascader', 'date', 'radio', 'checkbox']
+  pages.forEach((name) => {
+    result.push({
+      path: name,
+      component: () => import(`../pages/test/${name}.vue`)
+    })
+  })
+
+  return result
+}
 
 const routes = [
   {
@@ -7,11 +23,16 @@ const routes = [
   },
   {
     path: '/zh',
-    component: () => import('src/docs/zh.md')
+    component: () => import(`../pages/docs/zh.md`)
   },
   {
     path: '/en',
-    component: () => import('src/docs/en.md')
+    component: () => import(`../pages/docs/en.md`)
+  },
+  {
+    path: '/test',
+    component: Test,
+    children: createTestRoutes()
   }
 ]
 

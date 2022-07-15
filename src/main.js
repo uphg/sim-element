@@ -6,6 +6,7 @@ import VueRouter from "vue-router";
 import App from './App.vue'
 import Code from './components/s-code.vue'
 import Demo from './components/s-demo.vue'
+import Block from './components/s-block.vue'
 import { Form, FormItem, createFormGlobalField, Input } from './lib'
 import { globalFields } from './config'
 import router from './router'
@@ -14,6 +15,7 @@ Vue.use(VueRouter)
 
 Vue.component('s-demo', Demo)
 Vue.component('s-code', Code)
+Vue.component('s-block', Block)
 
 Vue.component('s-input', Input)
 Vue.component('s-form', Form)

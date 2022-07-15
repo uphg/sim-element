@@ -78,3 +78,24 @@
 .token.inserted {
   color: green;
 }
+
+[class^="test-"] {
+  .el-input {
+    margin-right: 1em;
+  }
+  .el-select .el-input {
+    width: 240px;
+  }
+  .input-with-select .el-input-group__prepend {
+    background-color: #fff;
+  }
+  .el-input-group {
+    width: 640px;
+  }
+  .el-input-number {
+    margin-right: 1em;
+  }
+  .el-cascader .el-input {
+    width: 240px;
+  }
+}

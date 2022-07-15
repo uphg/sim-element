@@ -66,6 +66,12 @@ export default {
     },
     props: Object,
 
+    // date
+    dateType: {
+      type: String,
+      default: 'date'
+    },
+
     options: [Array, Object],
     pickerOptions: [Object],
     hue: {

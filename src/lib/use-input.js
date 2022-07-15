@@ -58,7 +58,7 @@ function useInput(props, context, options = { onKeyup: null }) {
   }
 
   const inputMap = [{
-    type: ['button'],
+    type: 'button',
     render: () => h(ElButton, {
       props: {
         type: props.hue,
@@ -73,6 +73,45 @@ function useInput(props, context, options = { onKeyup: null }) {
         ...nativeOn
       },
     }, [props.text ? props.text : context.slots?.default?.()])
+  }, {
+    type: 'radio',
+    render: () => h(ElRadioGroup, {
+      props: {
+        value: props.value,
+        disabled: props.disabled,
+      },
+      on: {
+        input: onInput,
+        change: onChange
+      }
+    }, props.options.map(
+      (item) => h(ElRadio, {
+        props: {
+          label: item.value,
+          disabled: item.disabled,
+          size: props.size,
+        }
+      }, [item.label])
+    ))
+  }, {
+    type: 'checkbox',
+    render: () => h(ElCheckboxGroup, {
+      props: {
+        value: props.value,
+        disabled: props.disabled,
+      },
+      on: {
+        input: onInput
+      }
+    }, props.options.map(
+      (item) => h(ElCheckbox, {
+        props: {
+          label: item.value,
+          disabled: item.disabled,
+          size: props.size,
+        },
+      }, [item.label])
+    ))
   }, {
     type: ['text', 'password', 'textarea'],
     render: () => h(ElInput, {
@@ -128,7 +167,7 @@ function useInput(props, context, options = { onKeyup: null }) {
         controls: props.controls,
         controlsPosition: props.controlsPosition,
         size: props.size,
-        placeholder: context.attrs.placeholder,        
+        placeholder: context.attrs.placeholder,
         min: context.attrs.min,
         max: context.attrs.max,
         name: context.attrs.name,
@@ -189,72 +228,24 @@ function useInput(props, context, options = { onKeyup: null }) {
       },
       on: {
         input: onInput,
-        change: onChange
+        change: onChange,
+        blur: onBlur,
       }
     })
   }, {
-    type: 'radio',
-    render: () => h(ElRadioGroup, {
+    type: ['date', 'datetime'],
+    render: () => h(ElDatePicker, {
       props: {
         value: props.value,
-        disabled: props.disabled,
-      },
-      on: {
-        input: onInput,
-        change: onChange
-      }
-    }, props.options.map(
-      (item) => h(ElRadio, {
-        props: {
-          label: item.value,
-          disabled: item.disabled,
-          size: props.size,
-        }
-      }, [item.label])
-    ))
-  }, {
-    type: 'checkbox',
-    render: () => h(ElCheckboxGroup, {
-      props: {
-        value: props.value,
-        disabled: props.disabled,
-      },
-      on: {
-        input: onInput
-      }
-    }, props.options.map(
-      (item) => h(ElCheckbox, {
-        props: {
-          label: item.value,
-          disabled: item.disabled,
-          size: props.size,
-        },
-      }, [item.label])
-    ))
-  }, {
-    type: 'switch',
-    render: () => h(ElSwitch, {
-      props: {
-        value: props.value,
+        type: props.dateType,
         disabled: props.disabled,
         size: props.size,
+        placeholder: context.attrs.placeholder
       },
       on: {
         input: onInput,
-        change: onChange
-      }
-    })
-  }, {
-    type: 'slider',
-    render: () => h(ElSlider, {
-      props: {
-        value: props.value,
-        disabled: props.disabled,
-        size: props.size,
-      },
-      on: {
-        input: onInput,
-        change: onChange
+        change: onChange,
+        blur: onBlur,
       }
     })
   }, {
@@ -272,10 +263,22 @@ function useInput(props, context, options = { onKeyup: null }) {
       }
     })
   }, {
-    type: ['date', 'datetime'],
-    render: () => h(ElDatePicker, {
+    type: 'switch',
+    render: () => h(ElSwitch, {
       props: {
-        type: props.type,
+        value: props.value,
+        disabled: props.disabled,
+        size: props.size,
+      },
+      on: {
+        input: onInput,
+        change: onChange
+      }
+    })
+  }, {
+    type: 'slider',
+    render: () => h(ElSlider, {
+      props: {
         value: props.value,
         disabled: props.disabled,
         size: props.size,

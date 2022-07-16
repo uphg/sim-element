@@ -75,7 +75,7 @@ number/base
 
 ## Select 选择器
 
-设置 `type="select"`，使用计数器
+设置 `type="select"`，使用 Select 下拉选框
 
 <s-demo :component="SelectBase" />
 
@@ -87,9 +87,9 @@ select/base
 
 属性配置见：[Select 选择器 - Select Attributes](https://element.eleme.io/#/zh-CN/component/select#select-attributes)
 
-## Radio 单项选择
+## Radio 单选框
 
-设置 `type="radio"`，使用计数器
+设置 `type="radio"`，使用单选框
 
 <s-demo :component="RadioBase" />
 
@@ -99,7 +99,22 @@ radio/base
 
 :::
 
-属性配置见：[Radio 单项选择 - Radio Attributes](https://element.eleme.io/#/zh-CN/component/radio#radio-attributes)
+属性配置见：[Radio 单选框 - Radio Attributes](https://element.eleme.io/#/zh-CN/component/radio#radio-attributes)
+
+## Checkbox 多选框
+
+设置 `type="checkbox"`，使用多选框
+
+<s-demo :component="CheckboxBase" />
+
+:::code
+
+checkbox/base
+
+:::
+
+属性配置见：[Checkbox 多选框 - Checkbox Attributes](https://element.eleme.io/#/zh-CN/component/checkbox#checkbox-attributes)
+
 
 ## Switch 开关
 
@@ -137,6 +152,7 @@ import InputTextarea from 'src/examples/input/textarea.vue'
 import NumberBase from 'src/examples/number/base.vue'
 import SelectBase from 'src/examples/select/base.vue'
 import RadioBase from 'src/examples/radio/base.vue'
+import CheckboxBase from 'src/examples/checkbox/base.vue'
 import SwitchBase from 'src/examples/switch/base.vue'
 import DateBase from 'src/examples/date/base.vue'
 </script>

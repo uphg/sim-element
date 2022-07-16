@@ -29,9 +29,16 @@ function useInput(props, context, options = { onKeyup: null }) {
     emit('click', event)
   }
 
-  function onInput(value) {
+  const onInput = props.exclude ? (value) => {
+    const newVal = toString(value).replace(props.exclude, '')
+    emit('input', newVal)
+  } : (value) => {
     emit('input', value)
   }
+
+  // function onInput(value) {
+  //   emit('input', value)
+  // }
 
   function onChange(value) {
     emit('change', value)
@@ -53,9 +60,9 @@ function useInput(props, context, options = { onKeyup: null }) {
     emit('clear')
   }
 
-  function focus() {
-    inputRef.value.focus()
-  }
+  // function focus() {
+  //   inputRef.value.focus()
+  // }
 
   const inputMap = [{
     type: 'button',
@@ -101,7 +108,8 @@ function useInput(props, context, options = { onKeyup: null }) {
         disabled: props.disabled,
       },
       on: {
-        input: onInput
+        input: onInput,
+        change: onChange
       }
     }, props.options.map(
       (item) => h(ElCheckbox, {
@@ -132,10 +140,7 @@ function useInput(props, context, options = { onKeyup: null }) {
       },
       attrs: context.attrs,
       on: {
-        input(value) {
-          const newValue = props.exclude ? toString(value).replace(props.exclude, '') : value
-          onInput(newValue)
-        },
+        input: onInput,
         change: onChange,
         blur: onBlur,
       },

@@ -1,7 +1,7 @@
 <template>
   <div class="sim-block">
     <h2 v-if="title">{{ title }}</h2>
-    <s-demo>
+    <s-demo :style="demoStyle">
       <slot />
     </s-demo>
   </div>
@@ -9,6 +9,7 @@
 
 <script setup>
 defineProps({
-  title: String
+  title: String,
+  demoStyle: [String, Object, Array]
 })
 </script>

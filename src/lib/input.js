@@ -1,4 +1,15 @@
 import useInput from './use-input'
+import { isString } from '../utils';
+
+const validator = function(val) {
+  // either: String, Array of String, null / undefined
+  return (
+    val === null ||
+    val === undefined ||
+    isString(val) ||
+    (Array.isArray(val) && val.length === 2 && val.every(isString))
+  );
+};
 
 export default {
   name: 'SInput',
@@ -71,7 +82,42 @@ export default {
       type: String,
       default: 'date'
     },
+    format: String,
+    valueFormat: String,
+    readonly: Boolean,
+    startPlaceholder: String,
+    endPlaceholder: String,
+    prefixIcon: String,
+    clearIcon: {
+      type: String,
+      default: 'el-icon-circle-close'
+    },
+    disabled: Boolean,
+    clearable: {
+      type: Boolean,
+      default: true
+    },
+    popperClass: String,
+    editable: {
+      type: Boolean,
+      default: true
+    },
+    align: {
+      type: String,
+      default: 'left'
+    },
+    defaultValue: {},
+    defaultTime: {},
+    rangeSeparator: {
+      default: '-'
+    },
+    unlinkPanels: Boolean,
+    validateEvent: {
+      type: Boolean,
+      default: true
+    },
 
+    // other options
     options: [Array, Object],
     pickerOptions: [Object],
     hue: {

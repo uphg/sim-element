@@ -35,8 +35,7 @@
         <span class="demonstration">默认</span>
         <s-input
           v-model="scope1"
-          type="datetime"
-          date-type="datetimerange"
+          type="datetimerange"
           range-separator="至"
           start-placeholder="开始日期"
           end-placeholder="结束日期">
@@ -46,8 +45,7 @@
         <span class="demonstration">带快捷选项</span>
         <s-input
           v-model="scope2"
-          type="datetime"
-          date-type="datetimerange"
+          type="datetimerange"
           :picker-options="pickerOptionsScope"
           range-separator="至"
           start-placeholder="开始日期"
@@ -61,8 +59,7 @@
         <span class="demonstration">起始日期时刻为 12:00:00</span>
         <s-input
           v-model="defaultDate1"
-          type="datetime"
-          date-type="datetimerange"
+          type="datetimerange"
           start-placeholder="开始日期"
           end-placeholder="结束日期"
           :default-time="['12:00:00']">
@@ -72,8 +69,7 @@
         <span class="demonstration">起始日期时刻为 12:00:00，结束日期时刻为 08:00:00</span>
         <s-input
           v-model="defaultDate2"
-          type="datetime"
-          date-type="datetimerange"
+          type="datetimerange"
           align="right"
           start-placeholder="开始日期"
           end-placeholder="结束日期"

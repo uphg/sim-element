@@ -14,8 +14,8 @@ import {
   TimeSelect as ElTimeSelect,
   DatePicker as ElDatePicker
 } from 'element-ui'
-import { h, ref, toRef } from 'vue'
-import { toString, find, omitBy, pick } from '../utils'
+import { h, ref } from 'vue'
+import { toString, find, omitBy } from '../utils'
 
 function useInput(props, context, options = { onKeyup: null }) {
   const { onKeyup } = options
@@ -27,10 +27,6 @@ function useInput(props, context, options = { onKeyup: null }) {
 
   function onClick(event) {
     emit('click', event)
-  }
-
-  function onFocus(event) {
-    emit('focus', event)
   }
 
   function onInput(value) {
@@ -49,8 +45,12 @@ function useInput(props, context, options = { onKeyup: null }) {
     emit('blur', value)
   }
 
+  function onFocus(event) {
+    emit('focus', event)
+  }
+
   function onClear() {
-    emit('clear', value)
+    emit('clear')
   }
 
   function focus() {
@@ -233,11 +233,14 @@ function useInput(props, context, options = { onKeyup: null }) {
       }
     })
   }, {
-    type: ['date', 'datetime'],
+    type: [
+      'date', 'year', 'month', 'date', 'dates', 'week', 'daterange', 'monthrange',
+      'datetime', 'datetimerange'
+    ],
     render: () => h(ElDatePicker, {
       props: {
         value: props.value,
-        type: props.dateType,
+        type: props.type,
         format: props.format,
         valueFormat: props.valueFormat,
         readonly: props.readonly,
@@ -265,6 +268,7 @@ function useInput(props, context, options = { onKeyup: null }) {
         input: onInput,
         change: onChange,
         blur: onBlur,
+        focus: onFocus
       }
     })
   }, {
@@ -287,6 +291,15 @@ function useInput(props, context, options = { onKeyup: null }) {
       props: {
         value: props.value,
         disabled: props.disabled,
+        width: props.width,
+        activeIconClass: props.activeIconClass,
+        inactiveIconClass: props.inactiveIconClass,
+        activeText: props.activeText,
+        inactiveText: props.inactiveText,
+        activeColor: props.activeColor,
+        inactiveColor: props.inactiveColor,
+        activeValue: props.activeValue,
+        inactiveValue: props.inactiveValue,
         size: props.size,
       },
       on: {

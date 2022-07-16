@@ -5,17 +5,17 @@
       <div class="block">
         <span class="demonstration">默认</span>
         <s-input
-          v-model="date1"
           type="date"
+          v-model="date1"
           placeholder="选择日期"
         />
       </div>
       <div class="block">
         <span class="demonstration">带快捷选项</span>
         <s-input
+          type="date"
           v-model="date2"
           align="right"
-          type="date"
           placeholder="选择日期"
           :picker-options="datePickerOptions"
         />
@@ -27,8 +27,7 @@
           <span class="demonstration">周</span>
           <s-input
             v-model="other1"
-            type="date"
-            date-type="week"
+            type="week"
             format="yyyy 第 WW 周"
             placeholder="选择周">
           </s-input>
@@ -37,8 +36,7 @@
           <span class="demonstration">月</span>
           <s-input
             v-model="other2"
-            type="date"
-            date-type="month"
+            type="month"
             placeholder="选择月">
           </s-input>
         </div>
@@ -48,16 +46,14 @@
           <span class="demonstration">年</span>
           <s-input
             v-model="other3"
-            type="date"
-            date-type="year"
+            type="year"
             placeholder="选择年">
           </s-input>
         </div>
         <div class="block">
           <span class="demonstration">多个日期</span>
           <s-input
-            type="date"
-            date-type="dates"
+            type="dates"
             v-model="other4"
             placeholder="选择一个或多个日期">
           </s-input>
@@ -69,8 +65,7 @@
         <span class="demonstration">默认</span>
         <s-input
           v-model="scope1"
-          type="date"
-          date-type="daterange"
+          type="daterange"
           range-separator="至"
           start-placeholder="开始日期"
           end-placeholder="结束日期">
@@ -80,8 +75,7 @@
         <span class="demonstration">带快捷选项</span>
         <s-input
           v-model="scope2"
-          type="date"
-          date-type="daterange"
+          type="daterange"
           align="right"
           unlink-panels
           range-separator="至"
@@ -96,8 +90,7 @@
         <span class="demonstration">默认</span>
         <s-input
           v-model="month1"
-          type="date"
-          date-type="monthrange"
+          type="monthrange"
           range-separator="至"
           start-placeholder="开始月份"
           end-placeholder="结束月份">
@@ -107,8 +100,7 @@
         <span class="demonstration">带快捷选项</span>
         <s-input
           v-model="month2"
-          type="date"
-          date-type="monthrange"
+          type="monthrange"
           align="right"
           unlink-panels
           range-separator="至"

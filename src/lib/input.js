@@ -78,10 +78,6 @@ export default {
     props: Object,
 
     // date
-    dateType: {
-      type: String,
-      default: 'date'
-    },
     format: String,
     valueFormat: String,
     readonly: Boolean,
@@ -115,6 +111,38 @@ export default {
     validateEvent: {
       type: Boolean,
       default: true
+    },
+
+    // switch
+    width: {
+      type: Number,
+      default: 40
+    },
+    activeIconClass: {
+      type: String,
+      default: ''
+    },
+    inactiveIconClass: {
+      type: String,
+      default: ''
+    },
+    activeText: String,
+    inactiveText: String,
+    activeColor: {
+      type: String,
+      default: ''
+    },
+    inactiveColor: {
+      type: String,
+      default: ''
+    },
+    activeValue: {
+      type: [Boolean, String, Number],
+      default: true
+    },
+    inactiveValue: {
+      type: [Boolean, String, Number],
+      default: false
     },
 
     // other options

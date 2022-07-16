@@ -1,11 +1,9 @@
 import VueRouter from "vue-router";
 import Test from '../pages/test/index.vue'
 
-const toDocs = (name) => `../pages/docs/${name}.md`
-
 const createTestRoutes = () => {
   const result = []
-  const pages = ['button', 'input', 'number', 'select', 'cascader', 'date', 'datetime', 'radio', 'checkbox']
+  const pages = ['button', 'input', 'number', 'select', 'cascader', 'date', 'datetime', 'radio', 'checkbox', 'switch']
   pages.forEach((name) => {
     result.push({
       path: name,
@@ -17,10 +15,10 @@ const createTestRoutes = () => {
 }
 
 const routes = [
-  {
-    path: '/',
-    component: () => import('src/test/index.vue')
-  },
+  // {
+  //   path: '/',
+  //   component: () => import('src/test/index.vue')
+  // },
   {
     path: '/zh',
     component: () => import(`../pages/docs/zh.md`)

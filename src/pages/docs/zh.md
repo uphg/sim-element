@@ -99,7 +99,37 @@ radio/base
 
 :::
 
-属性配置见：[Select 选择器 - Select Attributes](https://element.eleme.io/#/zh-CN/component/select#select-attributes)
+属性配置见：[Radio 单项选择 - Radio Attributes](https://element.eleme.io/#/zh-CN/component/radio#radio-attributes)
+
+## Switch 开关
+
+设置 `type="switch"`，使用开关组件
+
+<s-demo :component="SwitchBase" />
+
+:::code
+
+switch/base
+
+:::
+
+属性配置见：[Switch 开关 - Attributes](https://element.eleme.io/#/zh-CN/component/select#select-attributes)
+
+## DatePicker 日期选择器
+
+设置 `type="date"`，使用日期选择器
+
+<s-demo :component="SwitchBase" />
+
+:::code
+
+switch/base
+
+:::
+
+属性配置见：[Switch 开关 - Attributes](https://element.eleme.io/#/zh-CN/component/select#select-attributes)
+
+
 
 
 <script setup>
@@ -110,4 +140,5 @@ import InputTextarea from 'src/examples/input/textarea.vue'
 import NumberBase from 'src/examples/number/base.vue'
 import SelectBase from 'src/examples/select/base.vue'
 import RadioBase from 'src/examples/radio/base.vue'
+import SwitchBase from 'src/examples/switch/base.vue'
 </script>

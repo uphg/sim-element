@@ -300,6 +300,7 @@ function useInput(props, context, options = { onKeyup: null }) {
         inactiveColor: props.inactiveColor,
         activeValue: props.activeValue,
         inactiveValue: props.inactiveValue,
+        validateEvent: props.validateEvent,
         size: props.size,
       },
       on: {

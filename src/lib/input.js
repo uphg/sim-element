@@ -1,15 +1,4 @@
 import useInput from './use-input'
-import { isString } from '../utils';
-
-const validator = function(val) {
-  // either: String, Array of String, null / undefined
-  return (
-    val === null ||
-    val === undefined ||
-    isString(val) ||
-    (Array.isArray(val) && val.length === 2 && val.every(isString))
-  );
-};
 
 export default {
   name: 'SInput',
@@ -108,10 +97,6 @@ export default {
       default: '-'
     },
     unlinkPanels: Boolean,
-    validateEvent: {
-      type: Boolean,
-      default: true
-    },
 
     // switch
     width: {
@@ -146,6 +131,10 @@ export default {
     },
 
     // other options
+    validateEvent: {
+      type: Boolean,
+      default: true
+    },
     options: [Array, Object],
     pickerOptions: [Object],
     hue: {

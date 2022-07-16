@@ -1,5 +1,6 @@
 <template>
   <div class="test-date">
+    <h1>DatePicker 日期选择器</h1>
     <s-block title="选择日" :demo-style="{ display: 'flex', 'flex-wrap': 'wrap' }">
       <div class="block">
         <span class="demonstration">默认</span>

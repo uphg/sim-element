@@ -5,7 +5,7 @@ const toDocs = (name) => `../pages/docs/${name}.md`
 
 const createTestRoutes = () => {
   const result = []
-  const pages = ['button', 'input', 'number', 'select', 'cascader', 'date', 'radio', 'checkbox']
+  const pages = ['button', 'input', 'number', 'select', 'cascader', 'date', 'datetime', 'radio', 'checkbox']
   pages.forEach((name) => {
     result.push({
       path: name,

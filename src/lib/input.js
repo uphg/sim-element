@@ -164,10 +164,6 @@ export default {
       default: true
     },
     accept: String,
-    type: {
-      type: String,
-      default: 'select'
-    },
     beforeUpload: Function,
     beforeRemove: Function,
     onRemove: {

@@ -61,9 +61,14 @@ function useInput(props, context, options = { onKeyup: null }) {
     emit('clear')
   }
 
-  // function focus() {
-  //   inputRef.value.focus()
-  // }
+  function focus() {
+    inputRef.value.focus()
+  }
+  const exposes = {
+    focus
+  }
+
+  context.expose(exposes)
 
   const inputMap = [{
     type: 'button',

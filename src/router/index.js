@@ -3,7 +3,7 @@ import Test from '../pages/test/index.vue'
 
 const createTestRoutes = () => {
   const result = []
-  const pages = ['button', 'input', 'number', 'select', 'cascader', 'date', 'datetime', 'radio', 'checkbox', 'switch']
+  const pages = ['button', 'input', 'number', 'select', 'cascader', 'date', 'datetime', 'radio', 'checkbox', 'switch', 'upload']
   pages.forEach((name) => {
     result.push({
       path: name,

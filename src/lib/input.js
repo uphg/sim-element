@@ -1,5 +1,7 @@
 import useInput from './use-input'
 
+function noop() {}
+
 export default {
   name: 'SInput',
   props: {
@@ -21,8 +23,17 @@ export default {
     maxlength: [String, Number],
     minlength: [String, Number],
     showWordLimit: Boolean,
+    multiple: Boolean,
 
     // input - number
+    max: {
+      type: Number,
+      default: Infinity
+    },
+    min: {
+      type: Number,
+      default: -Infinity
+    },
     step: {
       type: Number,
       default: 1
@@ -48,7 +59,6 @@ export default {
 
 
     // select
-    multiple: Boolean,
     multipleLimit: {
       type: Number,
       default: 0
@@ -128,6 +138,81 @@ export default {
     inactiveValue: {
       type: [Boolean, String, Number],
       default: false
+    },
+
+    // upload
+    action: {
+      type: String,
+      // required: true
+    },
+    headers: {
+      type: Object,
+      default() {
+        return {};
+      }
+    },
+    data: Object,
+    // name: {
+    //   type: String,
+    //   default: 'file'
+    // },
+    drag: Boolean,
+    dragger: Boolean,
+    withCredentials: Boolean,
+    showFileList: {
+      type: Boolean,
+      default: true
+    },
+    accept: String,
+    type: {
+      type: String,
+      default: 'select'
+    },
+    beforeUpload: Function,
+    beforeRemove: Function,
+    onRemove: {
+      type: Function,
+      default: noop
+    },
+    onChange: {
+      type: Function,
+      default: noop
+    },
+    onPreview: {
+      type: Function
+    },
+    onSuccess: {
+      type: Function,
+      default: noop
+    },
+    onProgress: {
+      type: Function,
+      default: noop
+    },
+    onError: {
+      type: Function,
+      default: noop
+    },
+    fileList: {
+      type: Array,
+      default() {
+        return [];
+      }
+    },
+    autoUpload: {
+      type: Boolean,
+      default: true
+    },
+    listType: {
+      type: String,
+      default: 'text' // text,picture,picture-card
+    },
+    httpRequest: Function,
+    disabled: Boolean,
+    limit: Number,
+    onExceed: {
+      type: Function,
+      default: noop
     },
 
     // other options

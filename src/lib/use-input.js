@@ -12,7 +12,8 @@ import {
   Switch as ElSwitch,
   Slider as ElSlider,
   TimeSelect as ElTimeSelect,
-  DatePicker as ElDatePicker
+  DatePicker as ElDatePicker,
+  Upload as ElUpload
 } from 'element-ui'
 import { h, ref } from 'vue'
 import { toString, find, omitBy } from '../utils'
@@ -172,9 +173,9 @@ function useInput(props, context, options = { onKeyup: null }) {
         controls: props.controls,
         controlsPosition: props.controlsPosition,
         size: props.size,
+        min: props.min,
+        max: props.max,
         placeholder: context.attrs.placeholder,
-        min: context.attrs.min,
-        max: context.attrs.max,
         name: context.attrs.name,
       },
       on: {
@@ -326,6 +327,50 @@ function useInput(props, context, options = { onKeyup: null }) {
         change: onChange
       }
     })
+  }, {
+    type: 'upload',
+    render: (temp) => {
+      return h(ElUpload, {
+        props: {
+          value: props.value,
+          disabled: props.disabled,
+          size: props.size,
+          action: props.action,
+          headers: props.headers,
+          multiple: props.multiple,
+          data: props.data,
+          withCredentials: props.withCredentials,
+          showFileList: props.showFileList,
+          drag: props.drag,
+          accept: props.accept, // accept="image/png, image/jpeg"
+          onPreview: props.onPreview,
+          onRemove: props.onRemove,
+          onSuccess: props.onSuccess,
+          onError: props.onError,
+          onProgress: props.onProgress,
+          onChange: props.onChange,
+          beforeUpload: props.beforeUpload,
+          beforeRemove: props.beforeRemove,
+          listType: props.listType,
+          autoUpload: props.autoUpload,
+          fileList: props.fileList,
+          httpRequest: props.httpRequest,
+          limit: props.limit,
+          onExceed: props.onExceed,
+          name: context.attrs.name,
+        }
+      }, [
+        context.slots?.default && h('slot', {
+          slot: 'default'
+        }, context.slots.default()),
+        context.slots?.trigger && h('slot', {
+          slot: 'trigger'
+        }, context.slots.trigger()),
+        context.slots?.tip && h('slot', {
+          slot: 'tip'
+        }, context.slots.tip())
+      ])
+    }
   }]
 
   const render = find(inputMap, ({ type }) => (

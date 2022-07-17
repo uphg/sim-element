@@ -358,6 +358,9 @@ function useInput(props, context, options = { onKeyup: null }) {
           limit: props.limit,
           onExceed: props.onExceed,
           name: context.attrs.name,
+        },
+        scopedSlots: {
+          file: props => context.slots.file && context.slots.file({ file: props.file })
         }
       }, [
         context.slots?.default && h('slot', {

@@ -1,12 +1,17 @@
-import { FormItem as ElFormItem } from "element-ui"
 import { h } from "vue"
+import { FormItem as ElFormItem } from "element-ui"
+import { inputProps } from "../shared"
 
 export default {
   name: 'SFormItem',
-  // props: {},
+  props: {
+    ...inputProps
+  },
   setup(props, context) {
     return () => h(ElFormItem, {
-      props,
+      props: {
+
+      },
       scopedSlots: {
         // default: () => context.slots.default(),
         header: () => context.slots.header()

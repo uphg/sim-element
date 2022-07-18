@@ -1,7 +1,7 @@
 <template>
   <div class="test-input">
     <s-demo>
-      <s-input v-model="input1" tabindex="1" />
+      <s-input ref="inputRef" v-model="input1" tabindex="1" />
       <s-input v-model="input1" clearable/>
       <s-input v-model="input1" disabled />
       <br><br>
@@ -51,10 +51,17 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, nextTick } from 'vue';
 import { options } from './_common';
 
 // Input
 const input1 = ref(null)
 const select = ref(null)
+const inputRef = ref(null)
+
+nextTick(() => {
+  console.log('inputRef.value')
+  console.log(inputRef.value)
+  console.log(inputRef.value.focus())
+})
 </script>

@@ -129,7 +129,7 @@ function useInput(props, context, options = { onKeyup: null }) {
   }, {
     type: ['text', 'password', 'textarea'],
     render: () => h(ElInput, {
-      ref: 'inputRef',
+      ref: (el) => { inputRef.value = el },
       props: {
         type: props.type,
         value: props.value,

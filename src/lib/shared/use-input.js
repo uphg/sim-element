@@ -16,7 +16,7 @@ import {
   Upload as ElUpload
 } from 'element-ui'
 import { h, ref } from 'vue'
-import { toString, find, omitBy } from '../utils'
+import { toString, find, omitBy } from '../../utils'
 
 function useInput(props, context, options = { onKeyup: null }) {
   const { onKeyup } = options

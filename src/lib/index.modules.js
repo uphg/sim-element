@@ -1,7 +1,7 @@
-import { formGlobalFieldsKey } from './providers'
+import { formGlobalFieldsKey } from './shared/form-providers'
 export { default as Form } from './form'
 export { default as FormItem } from './form-item'
-export { default as Input } from './input.js'
+export { default as Input } from './input'
 export { formGlobalFieldsKey }
 
 export function install(Vue) {

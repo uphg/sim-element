@@ -37,10 +37,6 @@ function useInput(props, context, options = { onKeyup: null }) {
     emit('input', value)
   }
 
-  // function onInput(value) {
-  //   emit('input', value)
-  // }
-
   function onChange(value) {
     emit('change', value)
   }
@@ -64,15 +60,31 @@ function useInput(props, context, options = { onKeyup: null }) {
   function focus() {
     inputRef.value.focus()
   }
-  const exposes = {
-    focus
+
+  function blur() {
+    inputRef.value.blur()
   }
 
-  context.expose(exposes)
+  function select() {
+    inputRef.value.select()
+  }
+
+  function setRef(el) {
+    inputRef.value = el
+  }
 
   const inputMap = [{
     type: 'button',
+    expose: {
+      click() {
+        inputRef.value.$el.click()
+      },
+      focus() {
+        inputRef.value.$el.focus()
+      }
+    },
     render: () => h(ElButton, {
+      ref: setRef,
       props: {
         type: props.hue,
         size: props.size,
@@ -128,8 +140,13 @@ function useInput(props, context, options = { onKeyup: null }) {
     ))
   }, {
     type: ['text', 'password', 'textarea'],
+    expose: {
+      focus,
+      blur,
+      select
+    },
     render: () => h(ElInput, {
-      ref: (el) => { inputRef.value = el },
+      ref: setRef,
       props: {
         type: props.type,
         value: props.value,
@@ -168,7 +185,17 @@ function useInput(props, context, options = { onKeyup: null }) {
   }, {
     type: 'number',
     attrs: context.attrs,
+    expose: {
+      focus,
+      blur() {
+        const number = inputRef.value.$el
+        const input = number.querySelector('.el-input__inner')
+        input.blur()
+      },
+      select
+    },
     render: () => h(ElInputNumber, {
+      ref: setRef,
       props: {
         value: props.value,
         disabled: props.disabled,
@@ -194,7 +221,12 @@ function useInput(props, context, options = { onKeyup: null }) {
     })
   }, {
     type: 'select',
+    expose: {
+      focus,
+      blur
+    },
     render: () => h(ElSelect, {
+      ref: setRef,
       props: {
         value: props.value,
         clearable: props.clearable,
@@ -248,7 +280,11 @@ function useInput(props, context, options = { onKeyup: null }) {
       'date', 'year', 'month', 'date', 'dates', 'week', 'daterange', 'monthrange',
       'datetime', 'datetimerange'
     ],
+    expose: {
+      focus
+    },
     render: () => h(ElDatePicker, {
+      ref: setRef,
       props: {
         value: props.value,
         type: props.type,
@@ -298,7 +334,11 @@ function useInput(props, context, options = { onKeyup: null }) {
     })
   }, {
     type: 'switch',
+    expose: {
+      focus
+    },
     render: () => h(ElSwitch, {
+      ref: setRef,
       props: {
         value: props.value,
         disabled: props.disabled,
@@ -333,59 +373,69 @@ function useInput(props, context, options = { onKeyup: null }) {
       }
     })
   }, {
-    type: 'upload',
-    render: (temp) => {
-      return h(ElUpload, {
-        props: {
-          value: props.value,
-          disabled: props.disabled,
-          size: props.size,
-          action: props.action,
-          headers: props.headers,
-          multiple: props.multiple,
-          data: props.data,
-          withCredentials: props.withCredentials,
-          showFileList: props.showFileList,
-          drag: props.drag,
-          accept: props.accept, // accept="image/png, image/jpeg"
-          onPreview: props.onPreview,
-          onRemove: props.onRemove,
-          onSuccess: props.onSuccess,
-          onError: props.onError,
-          onProgress: props.onProgress,
-          onChange: props.onChange,
-          beforeUpload: props.beforeUpload,
-          beforeRemove: props.beforeRemove,
-          listType: props.listType,
-          autoUpload: props.autoUpload,
-          fileList: props.fileList,
-          httpRequest: props.httpRequest,
-          limit: props.limit,
-          onExceed: props.onExceed,
-          name: context.attrs.name,
-        },
-        scopedSlots: {
-          file: props => context.slots.file && context.slots.file({ file: props.file })
-        }
-      }, [
-        context.slots?.default && h('slot', {
-          slot: 'default'
-        }, context.slots.default()),
-        context.slots?.trigger && h('slot', {
-          slot: 'trigger'
-        }, context.slots.trigger()),
-        context.slots?.tip && h('slot', {
-          slot: 'tip'
-        }, context.slots.tip())
-      ])
-    }
+    type: ['file', 'upload'],
+    expose: {
+      clearFiles() {
+        inputRef.value.clearFiles()
+      },
+      abort(file) {
+        inputRef.value.abort(file)
+      },
+      submit() {
+        inputRef.value.submit()
+      }
+    },
+    render: () => h(ElUpload, {
+      ref: setRef,
+      props: {
+        value: props.value,
+        disabled: props.disabled,
+        size: props.size,
+        action: props.action,
+        headers: props.headers,
+        multiple: props.multiple,
+        data: props.data,
+        withCredentials: props.withCredentials,
+        showFileList: props.showFileList,
+        drag: props.drag,
+        accept: props.accept, // accept="image/png, image/jpeg"
+        onPreview: props.onPreview,
+        onRemove: props.onRemove,
+        onSuccess: props.onSuccess,
+        onError: props.onError,
+        onProgress: props.onProgress,
+        onChange: props.onChange,
+        beforeUpload: props.beforeUpload,
+        beforeRemove: props.beforeRemove,
+        listType: props.listType,
+        autoUpload: props.autoUpload,
+        fileList: props.fileList,
+        httpRequest: props.httpRequest,
+        limit: props.limit,
+        onExceed: props.onExceed,
+        name: context.attrs.name,
+      },
+      scopedSlots: {
+        file: props => context.slots.file && context.slots.file({ file: props.file })
+      }
+    }, [
+      context.slots?.default && h('slot', {
+        slot: 'default'
+      }, context.slots.default()),
+      context.slots?.trigger && h('slot', {
+        slot: 'trigger'
+      }, context.slots.trigger()),
+      context.slots?.tip && h('slot', {
+        slot: 'tip'
+      }, context.slots.tip())
+    ])
   }]
 
-  const render = find(inputMap, ({ type }) => (
+  const template = find(inputMap, ({ type }) => (
     typeof type === 'string' ? props.type === type : type.indexOf(props.type) !== -1
-  )).render
+  ))
 
-  return render
+  return template
 }
 
 export default useInput

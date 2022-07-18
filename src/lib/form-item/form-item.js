@@ -1,6 +1,6 @@
 import { h } from "vue"
 import { FormItem as ElFormItem } from "element-ui"
-import { inputProps } from "../shared"
+import { inputProps, useInput } from "../shared"
 
 export default {
   name: 'SFormItem',
@@ -8,14 +8,28 @@ export default {
     ...inputProps
   },
   setup(props, context) {
+    let render
+    if (context.slots.default) {
+      render = context.slots.default
+    } else {
+      const template =  useInput(props, context, {
+        onKeyup(event) {
+          if (event.keyCode !== 13) return
+          console.log('执行回车')
+        }
+      })
+  
+      template.expose && context.expose(template.expose)
+      render = template.render
+    }
+
     return () => h(ElFormItem, {
       props: {
-
+        label: props.label,
       },
       scopedSlots: {
-        // default: () => context.slots.default(),
         header: () => context.slots.header()
       }
-    }, [context.slots.default && context.slots.default()])
+    }, [render()])
   }
 }

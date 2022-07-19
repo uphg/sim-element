@@ -38,7 +38,7 @@ export default {
         label: item.label
       }
     }, [
-      createInput(item, formDate, context, item.options && createOptions({ type: item.type, options: item.options }, props.size))
+      createInput(item, { formDate, context } )
     ]))
     )
 

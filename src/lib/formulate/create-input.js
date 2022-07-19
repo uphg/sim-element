@@ -18,7 +18,7 @@ import {
 import { h } from 'vue'
 
 
-function createInput(props, formDate, context, children) {
+function createInput(props, { formDate, context, children }) {
   switch (props.type || 'text') {
     case 'text':
     case 'password':
@@ -32,7 +32,7 @@ function createInput(props, formDate, context, children) {
             formDate.value[props.key] = value
           }
         }
-      }, children && children)
+      })
     case 'button':
       return h(ElButton, {
         props: {
@@ -43,13 +43,40 @@ function createInput(props, formDate, context, children) {
             context.emit('submit', formDate.value)
           }
         }
-      }, children && children)
+      })
     case 'radio':
-      return ElRadioGroup
+      return h(ElRadioGroup, {
+        props: {
+          text: props.text
+        },
+        on: {
+          click(value) {
+            context.emit('submit', formDate.value)
+          }
+        }
+      }, createOptions({ type: props.type, options: props.options }))
     case 'checkbox':
-      return ElCheckboxGroup
+      return h(ElCheckboxGroup, {
+        props: {
+          text: props.text
+        },
+        on: {
+          click(value) {
+            context.emit('submit', formDate.value)
+          }
+        }
+      }, createOptions({ type: props.type, options: props.options }))
     case 'radio':
-      return ElRadioGroup
+      return h(ElRadioGroup, {
+        props: {
+          text: props.text
+        },
+        on: {
+          click(value) {
+            context.emit('submit', formDate.value)
+          }
+        }
+      }, createOptions({ type: props.type, options: props.options }))
   }
 }
 

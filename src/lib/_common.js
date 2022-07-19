@@ -1,8 +1,3 @@
-
-function noop() { }
-
-
-
 export const formFieldsKey = Symbol('SFormFieldsKey')
 export const formAddFieldKey = Symbol('SFormAddFieldKey')
 export const formGlobalFieldsKey = Symbol('SFormGlobalFieldsKey')

@@ -12,13 +12,15 @@ export default {
     if (context.slots.default) {
       render = context.slots.default
     } else {
-      const template =  useInput(props, context, {
+      console.log('props.type')
+      console.log(props.type)
+      const template = useInput(props, context, {
         onKeyup(event) {
           if (event.keyCode !== 13) return
           console.log('执行回车')
         }
       })
-  
+
       template.expose && context.expose(template.expose)
       render = template.render
     }

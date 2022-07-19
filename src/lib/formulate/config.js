@@ -1,5 +1,6 @@
-export const globalFields = {
-  username: {
+export const fileds = [
+  {
+    key: 'username',
     label: '用户名',
     exclude: /[^\w]/g,
     maxLength: 20,
@@ -8,7 +9,8 @@ export const globalFields = {
       { min: 6, message: `最小长度在 6 个字符以上`, trigger: 'blur' }
     ]
   },
-  password: {
+  {
+    key: 'password',
     label: '密码',
     exclude: /[\u4E00-\u9FA5\s]/g,
     maxLength: 20,
@@ -17,7 +19,8 @@ export const globalFields = {
       { min: 6, message: `最小长度在 6 个字符以上`, trigger: 'blur' }
     ]
   },
-  checkPassword: {
+  {
+    key: 'checkPassword',
     label: '确认密码',
     exclude: /[\u4E00-\u9FA5\s]/g,
     maxLength: 20,
@@ -26,7 +29,8 @@ export const globalFields = {
       { min: 6, message: `最小长度在 6 个字符以上`, trigger: 'blur' }
     ]
   },
-  phone: {
+  {
+    key: 'phone',
     label: '手机号',
     exclude: /^0|[^\d]/g,
     maxLength: 11,
@@ -40,7 +44,8 @@ export const globalFields = {
       }
     ]
   },
-  email: {
+  {
+    key: 'email',
     label: '邮箱',
     exclude: /[^a-zA-Z0-9@._-]/g,
     maxLength: 11,
@@ -49,7 +54,8 @@ export const globalFields = {
       { type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur' }
     ]
   },
-  captcha: {
+  {
+    key: 'captcha',
     label: '验证码',
     exclude: /[^\d]/g,
     maxLength: 6,
@@ -58,7 +64,8 @@ export const globalFields = {
       { min: 6, message: `最小长度在 6 个字符以上`, trigger: 'blur' }
     ]
   },
-  imgCaptcha: {
+  {
+    key: 'captcha',
     label: '图片验证码',
     exclude: /[^a-zA-Z0-9]/g,
     maxLength: 4,
@@ -67,22 +74,25 @@ export const globalFields = {
       { min: 4, message: `最小长度在 4 个字符以上`, trigger: 'blur' }
     ]
   },
-  certificateType: {
+  {
+    key: 'certificateType',
     label: '身份类型',
     rules: [
       { required: true, type: 'number', message: '请选择身份类型', trigger: ['change', 'blur'] }
     ]
   },
-  authStatus: {
+  {
+    key: 'authStatus',
     label: '认证状态',
     rules: [
       { required: true, type: 'number', message: '请选择数字类型认证状态', trigger: ['change', 'blur'] }
     ]
   },
-  date: {
+  {
+    key: 'date',
     label: '日期',
     rules: [
       { required: true, message: '请选择日期', trigger: ['change', 'blur'] }
     ]
   }
-}
+]

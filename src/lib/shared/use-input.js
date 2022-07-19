@@ -18,7 +18,7 @@ import {
 import { h, ref } from 'vue'
 import { toString, find, omitBy } from '../../utils'
 
-function useInput(props, context, options = { onKeyup: null }) {
+function useInput(props, context, options = { onKeyup: null, onInput: null }) {
   const { onKeyup } = options
   const { emit } = context
 
@@ -30,7 +30,7 @@ function useInput(props, context, options = { onKeyup: null }) {
     emit('click', event)
   }
 
-  const onInput = props.exclude ? (value) => {
+  const onInput = options.onInput ? options.onInput : props.exclude ? (value) => {
     const newVal = toString(value).replace(props.exclude, '')
     emit('input', newVal)
   } : (value) => {

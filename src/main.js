@@ -7,7 +7,7 @@ import App from './App.vue'
 import Code from './components/s-code.vue'
 import Demo from './components/s-demo.vue'
 import Block from './components/s-block.vue'
-import { Form, FormItem, createFormGlobalField, Input } from './lib'
+import { Form, FormItem, createFormGlobalField, Input, Formulate } from './lib'
 import { globalFields } from './config'
 import router from './router'
 
@@ -20,6 +20,7 @@ Vue.component('s-block', Block)
 Vue.component('s-input', Input)
 Vue.component('s-form', Form)
 Vue.component('s-form-item', FormItem)
+Vue.component('s-formulate', Formulate)
 
 new Vue({
   provide: createFormGlobalField(globalFields),

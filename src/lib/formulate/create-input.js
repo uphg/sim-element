@@ -16,10 +16,8 @@ import {
   Upload as ElUpload
 } from 'element-ui'
 import { h } from 'vue'
-import createOptions from './create-options'
 
-
-function createInput(props, { formDate, context, children }) {
+function createInput(props, { formRef, formDate, context, children }) {
 
   switch (props.type || 'text') {
     case 'text':
@@ -57,7 +55,70 @@ function createInput(props, { formDate, context, children }) {
             formDate.value[props.key] = value
           }
         }
-      }, createOptions({ type: props.type, options: props.options }))
+      }, props.options.map(
+        (item) => h(ElRadio, {
+          props: {
+            label: item.value,
+            disabled: item.disabled,
+          }
+        }, [item.label])
+      ))
+    case 'date':
+    case 'datetime':
+      return h(ElDatePicker, {
+        props: {
+          value: formDate.value[props.key],
+          type: props.type,
+          format: props.format,
+          valueFormat: props.valueFormat,
+          readonly: props.readonly,
+          startPlaceholder: props.startPlaceholder,
+          endPlaceholder: props.endPlaceholder,
+          prefixIcon: props.prefixIcon,
+          clearIcon: props.clearIcon,
+          disabled: props.disabled,
+          clearable: props.clearable,
+          popperClass: props.popperClass,
+          editable: props.editable,
+          align: props.align,
+          defaultValue: props.defaultValue,
+          defaultTime: props.defaultTime,
+          rangeSeparator: props.rangeSeparator,
+          pickerOptions: props.pickerOptions,
+          unlinkPanels: props.unlinkPanels,
+          validateEvent: props.validateEvent,
+          // 原生属性
+          name: context.attrs.name,
+          placeholder: context.attrs.placeholder,
+        },
+        on: {
+          input(value) {
+            formDate.value[props.key] = value
+          }
+        }
+      })
+    case 'switch':
+      return h(ElSwitch, {
+        props: {
+          value: formDate.value[props.key],
+          disabled: props.disabled,
+          width: props.width,
+          activeIconClass: props.activeIconClass,
+          inactiveIconClass: props.inactiveIconClass,
+          activeText: props.activeText,
+          inactiveText: props.inactiveText,
+          activeColor: props.activeColor,
+          inactiveColor: props.inactiveColor,
+          activeValue: props.activeValue,
+          inactiveValue: props.inactiveValue,
+          validateEvent: props.validateEvent,
+        },
+        on: {
+          input(value) {
+            formDate.value[props.key] = value
+          }
+        }
+      })
     case 'checkbox':
       return h(ElCheckboxGroup, {
         props: {
@@ -69,7 +130,14 @@ function createInput(props, { formDate, context, children }) {
             formDate.value[props.key] = value
           }
         }
-      }, createOptions({ type: props.type, options: props.options }))
+      }, props.options.map(
+        (item) => h(ElCheckbox, {
+          props: {
+            label: item.value,
+            disabled: item.disabled,
+          },
+        }, [item.label])
+      ))
     case 'select':
       return h(ElSelect, {
         props: {
@@ -81,31 +149,76 @@ function createInput(props, { formDate, context, children }) {
             formDate.value[props.key] = value
           }
         }
-      }, createOptions({ type: props.type, options: props.options }))
-    case 'button':
-      return h(ElButton, {
-        props: {
-          text: props.text,
-          disabled: props.disabled,
-        },
-        on: {
-          click(event) {
-            context.emit('click', event)
+      }, props.options.map(
+        (item) => h(ElOption, {
+          props: {
+            label: item.label,
+            value: item.value,
+            disabled: item.disabled,
           }
+        })
+      ))
+    case 'upload':
+    case 'file':
+      return h(ElUpload, {
+        props: {
+          fileList: formDate.value[props.key],
+          disabled: props.disabled,
+          action: props.action,
+          headers: props.headers,
+          multiple: props.multiple,
+          data: props.data,
+          withCredentials: props.withCredentials,
+          showFileList: props.showFileList,
+          drag: props.drag,
+          accept: props.accept, // accept="image/png, image/jpeg"
+          onPreview: props.onPreview,
+          onRemove: props.onRemove,
+          onSuccess: props.onSuccess,
+          onError: props.onError,
+          onProgress: props.onProgress,
+          onChange: props.onChange,
+          beforeUpload: props.beforeUpload,
+          beforeRemove: props.beforeRemove,
+          listType: props.listType,
+          autoUpload: props.autoUpload,
+          // fileList: props.fileList,
+          httpRequest: props.httpRequest,
+          limit: props.limit,
+          onExceed: props.onExceed,
+          name: context.attrs.name,
         }
-      })
+      }, [
+          h(ElButton, {
+            props: {
+              type: 'primary',
+              size: 'small',
+            }
+          }, ['点击上传']),
+          h('div', {
+            class: 'el-upload__tip',
+            slot: 'tip',
+          }, [props.tip])
+        ]
+      )
+    case 'button':
     case 'submit':
       return h(ElButton, {
         props: {
           text: props.text,
           disabled: props.disabled,
+          type: props.hue
         },
         on: {
-          click() {
-            context.emit('submit', formDate.value)
+          click: props.type === 'submit'? () => {
+            formRef.value.validate((valid) => {
+              valid && props.onSubmit ? props.onSubmit(formDate.value) : context.emit('submit', formDate.value)
+            })
+          } : (event) => {
+            props.onClick(event)
           }
         }
-      })
+      }, [props.text && props.text])
   }
 }
 

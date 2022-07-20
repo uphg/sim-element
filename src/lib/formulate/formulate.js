@@ -1,7 +1,35 @@
 import { h, ref } from "vue"
 import { Form as ElForm, FormItem as ElFormItem, Input as ElInput } from "element-ui"
 import createInput from './create-input'
-import createOptions from "./create-options"
+
+function createFormData(fileds) {
+  const filedKeys = {}
+  fileds.forEach(({ type, key }) => {
+    if (!key) return
+    switch (type) {
+      case 'checkbox':
+      case 'file':
+      case 'upload':
+        filedKeys[key] = []
+        break;
+      case 'switch':
+        filedKeys[key] = false
+      default:
+        filedKeys[key] = ''
+    }
+  })
+  return filedKeys
+}
+
+function createRules(fileds) {
+  const result = {}
+  fileds.forEach(({ key, rules }) => {
+    if (!key) return
+    result[key] = rules
+  })
+
+  return result
+}
 
 export default {
   name: 'SFormulate',
@@ -17,19 +45,17 @@ export default {
     size: String,
   },
   setup(props, context) {
-    const filedKeys = {}
-    props.fileds.forEach(({ type, key }) => {
-      if (type === 'checkbox') {
-        filedKeys[key] = []
-      } else {
-        filedKeys[key] = ''
-      }
-    })
-
-    const formDate = ref(filedKeys)
-
+    
+    const formRef = ref(null)
+    const formDate = ref(createFormData(props.fileds))
+    const rules = ref(createRules(props.fileds))
+    console.log('rules')
+    console.log(rules)
+    
     const render = () => h(ElForm, {
+      ref: (el) => formRef.value = el,
       props: {
+        rules: rules.value,
         model: formDate.value,
         labelPosition: props.labelPosition,
         labelWidth: props.labelWidth,
@@ -38,10 +64,10 @@ export default {
       }
     }, props.fileds.map((item) => h(ElFormItem, {
       props: {
-        label: item.label
+        label: item.label,
+        prop: item.key
       }
-    }, [createInput(item, { formDate, context })])))
-
+    }, Array.isArray(item) ? item.map(piece => createInput(piece, { formRef, formDate, context })) : [createInput(item, { formRef, formDate, context })])))
 
     return render
   }

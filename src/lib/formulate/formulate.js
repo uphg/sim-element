@@ -17,10 +17,13 @@ export default {
     size: String,
   },
   setup(props, context) {
-
     const filedKeys = {}
-    props.fileds.forEach(({ key }) => {
-      filedKeys[key] = ''
+    props.fileds.forEach(({ type, key }) => {
+      if (type === 'checkbox') {
+        filedKeys[key] = []
+      } else {
+        filedKeys[key] = ''
+      }
     })
 
     const formDate = ref(filedKeys)
@@ -37,10 +40,7 @@ export default {
       props: {
         label: item.label
       }
-    }, [
-      createInput(item, { formDate, context } )
-    ]))
-    )
+    }, [createInput(item, { formDate, context })])))
 
 
     return render

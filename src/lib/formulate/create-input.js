@@ -16,16 +16,29 @@ import {
   Upload as ElUpload
 } from 'element-ui'
 import { h } from 'vue'
+import createOptions from './create-options'
 
 
 function createInput(props, { formDate, context, children }) {
+
   switch (props.type || 'text') {
     case 'text':
     case 'password':
     case 'textarea':
       return h(ElInput, {
         props: {
-          value: formDate.value[props.key]
+          type: props.type,
+          value: formDate.value[props.key],
+          disabled: props.disabled,
+          clearable: props.clearable,
+          suffixIcon: props.suffixIcon,
+          prefixIcon: props.prefixIcon,
+          showWordLimit: props.showWordLimit,
+          showPassword: props.showPassword,
+        },
+        attrs: {
+          minlength: props.minlength,
+          maxlength: props.maxlength,
         },
         on: {
           input(value) {
@@ -33,50 +46,66 @@ function createInput(props, { formDate, context, children }) {
           }
         }
       })
-    case 'button':
-      return h(ElButton, {
-        props: {
-          text: props.text
-        },
-        on: {
-          click(value) {
-            context.emit('submit', formDate.value)
-          }
-        }
-      })
     case 'radio':
       return h(ElRadioGroup, {
         props: {
-          text: props.text
+          value: formDate.value[props.key],
+          disabled: props.disabled,
         },
         on: {
-          click(value) {
-            context.emit('submit', formDate.value)
+          input(value) {
+            formDate.value[props.key] = value
           }
         }
       }, createOptions({ type: props.type, options: props.options }))
     case 'checkbox':
       return h(ElCheckboxGroup, {
         props: {
-          text: props.text
+          value: formDate.value[props.key],
+          disabled: props.disabled,
         },
         on: {
-          click(value) {
-            context.emit('submit', formDate.value)
+          input(value) {
+            formDate.value[props.key] = value
           }
         }
       }, createOptions({ type: props.type, options: props.options }))
-    case 'radio':
-      return h(ElRadioGroup, {
+    case 'select':
+      return h(ElSelect, {
         props: {
-          text: props.text
+          value: formDate.value[props.key],
+          disabled: props.disabled,
         },
         on: {
-          click(value) {
-            context.emit('submit', formDate.value)
+          input(value) {
+            formDate.value[props.key] = value
           }
         }
       }, createOptions({ type: props.type, options: props.options }))
+    case 'button':
+      return h(ElButton, {
+        props: {
+          text: props.text,
+          disabled: props.disabled,
+        },
+        on: {
+          click(event) {
+            context.emit('click', event)
+          }
+        }
+      })
+    case 'submit':
+      return h(ElButton, {
+        props: {
+          text: props.text,
+          disabled: props.disabled,
+        },
+        on: {
+          click() {
+            context.emit('submit', formDate.value)
+          }
+        }
+      })
   }
 }
 

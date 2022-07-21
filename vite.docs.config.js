@@ -11,6 +11,7 @@ const src = `${path.resolve(__dirname, './src')}`
 
 // https://vitejs.dev/config/
 export default {
+  base: '/sim-element/',
   build: {
     outDir: 'docs'
   },

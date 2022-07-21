@@ -17,8 +17,7 @@ import {
 } from 'element-ui'
 import { h } from 'vue'
 
-function createInput(props, { formRef, formDate, context, children }) {
-
+function renderInput(props, { formRef, formDate, context }) {
   switch (props.type || 'text') {
     case 'text':
     case 'password':
@@ -44,6 +43,29 @@ function createInput(props, { formRef, formDate, context, children }) {
           }
         }
       })
+    case 'number':
+      return h(ElInputNumber, {
+        props: {
+          value: formDate.value[props.key],
+          disabled: props.disabled,
+          step: props.step,
+          stepStrictly: props.stepStrictly,
+          precision: props.precision,
+          controls: props.controls,
+          controlsPosition: props.controlsPosition,
+          size: props.size,
+          min: props.min,
+          max: props.max,
+          placeholder: props.placeholder,
+          name: props.name,
+        },
+        on: {
+          input(newVal) {
+            if (props.value === newVal) return
+            formDate.value[props.key] = newVal
+          }
+        }
+      })
     case 'radio':
       return h(ElRadioGroup, {
         props: {
@@ -61,6 +83,25 @@ function createInput(props, { formRef, formDate, context, children }) {
             label: item.value,
             disabled: item.disabled,
           }
+        }, [item.label])
+      ))
+    case 'checkbox':
+      return h(ElCheckboxGroup, {
+        props: {
+          value: formDate.value[props.key],
+          disabled: props.disabled,
+        },
+        on: {
+          input(value) {
+            formDate.value[props.key] = value
+          }
+        }
+      }, props.options.map(
+        (item) => h(ElCheckbox, {
+          props: {
+            label: item.value,
+            disabled: item.disabled,
+          },
         }, [item.label])
       ))
     case 'date':
@@ -119,25 +160,7 @@ function createInput(props, { formRef, formDate, context, children }) {
           }
         }
       })
-    case 'checkbox':
-      return h(ElCheckboxGroup, {
-        props: {
-          value: formDate.value[props.key],
-          disabled: props.disabled,
-        },
-        on: {
-          input(value) {
-            formDate.value[props.key] = value
-          }
-        }
-      }, props.options.map(
-        (item) => h(ElCheckbox, {
-          props: {
-            label: item.value,
-            disabled: item.disabled,
-          },
-        }, [item.label])
-      ))
+
     case 'select':
       return h(ElSelect, {
         props: {
@@ -189,17 +212,17 @@ function createInput(props, { formRef, formDate, context, children }) {
           name: context.attrs.name,
         }
       }, [
-          h(ElButton, {
-            props: {
-              type: 'primary',
-              size: 'small',
-            }
-          }, ['点击上传']),
-          h('div', {
-            class: 'el-upload__tip',
-            slot: 'tip',
-          }, [props.tip])
-        ]
+        h(ElButton, {
+          props: {
+            type: 'primary',
+            size: 'small',
+          }
+        }, ['点击上传']),
+        h('div', {
+          class: 'el-upload__tip',
+          slot: 'tip',
+        }, [props.tip])
+      ]
       )
     case 'button':
     case 'submit':
@@ -210,7 +233,7 @@ function createInput(props, { formRef, formDate, context, children }) {
           type: props.hue
         },
         on: {
-          click: props.type === 'submit'? () => {
+          click: props.type === 'submit' ? () => {
             formRef.value.validate((valid) => {
               valid && props.onSubmit ? props.onSubmit(formDate.value) : context.emit('submit', formDate.value)
             })
@@ -222,4 +245,4 @@ function createInput(props, { formRef, formDate, context, children }) {
   }
 }
 
-export default createInput
+export default renderInput

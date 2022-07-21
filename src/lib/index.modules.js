@@ -1,7 +1,7 @@
 import { formGlobalFieldsKey } from './shared/form-providers'
+export { default as Input } from './input'
 export { default as Form } from './form'
 export { default as FormItem } from './form-item'
-export { default as Input } from './input'
 export { default as Formulate } from './formulate'
 export { formGlobalFieldsKey }
 

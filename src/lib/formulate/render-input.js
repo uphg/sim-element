@@ -104,33 +104,36 @@ function renderInput(props, { formRef, formDate, context }) {
           },
         }, [item.label])
       ))
-    case 'date':
-    case 'datetime':
-      return h(ElDatePicker, {
+    case 'select':
+      return h(ElSelect, {
         props: {
           value: formDate.value[props.key],
-          type: props.type,
-          format: props.format,
-          valueFormat: props.valueFormat,
-          readonly: props.readonly,
-          startPlaceholder: props.startPlaceholder,
-          endPlaceholder: props.endPlaceholder,
-          prefixIcon: props.prefixIcon,
-          clearIcon: props.clearIcon,
           disabled: props.disabled,
+        },
+        on: {
+          input(value) {
+            formDate.value[props.key] = value
+          }
+        }
+      }, props.options.map(
+        (item) => h(ElOption, {
+          props: {
+            label: item.label,
+            value: item.value,
+            disabled: item.disabled,
+          }
+        })
+      ))
+    case 'cascader':
+      return h(ElCascader, {
+        props: {
+          value: formDate.value[props.key],
+          disabled: props.disabled,
+          options: props.options,
           clearable: props.clearable,
-          popperClass: props.popperClass,
-          editable: props.editable,
-          align: props.align,
-          defaultValue: props.defaultValue,
-          defaultTime: props.defaultTime,
-          rangeSeparator: props.rangeSeparator,
-          pickerOptions: props.pickerOptions,
-          unlinkPanels: props.unlinkPanels,
-          validateEvent: props.validateEvent,
-          // 原生属性
-          name: context.attrs.name,
-          placeholder: context.attrs.placeholder,
+          showAllLevels: props.showAllLevels,
+          props: props.props,
+          collapseTags: props.collapseTags
         },
         on: {
           input(value) {
@@ -160,32 +163,64 @@ function renderInput(props, { formRef, formDate, context }) {
           }
         }
       })
-
-    case 'select':
-      return h(ElSelect, {
+    case 'slider':
+      return h(ElSwitch, {
         props: {
           value: formDate.value[props.key],
-          disabled: props.disabled,
+          disabled: props.disabled
         },
         on: {
           input(value) {
             formDate.value[props.key] = value
           }
         }
-      }, props.options.map(
-        (item) => h(ElOption, {
-          props: {
-            label: item.label,
-            value: item.value,
-            disabled: item.disabled,
+      })
+    case 'date':
+    case 'year':
+    case 'month':
+    case 'dates':
+    case 'week':
+    case 'daterange':
+    case 'monthrange':
+    case 'datetime':
+    case 'datetimerange':
+      return h(ElDatePicker, {
+        props: {
+          value: formDate.value[props.key],
+          type: props.type,
+          format: props.format,
+          valueFormat: props.valueFormat,
+          readonly: props.readonly,
+          startPlaceholder: props.startPlaceholder,
+          endPlaceholder: props.endPlaceholder,
+          prefixIcon: props.prefixIcon,
+          clearIcon: props.clearIcon,
+          disabled: props.disabled,
+          clearable: props.clearable,
+          popperClass: props.popperClass,
+          editable: props.editable,
+          align: props.align,
+          defaultValue: props.defaultValue,
+          defaultTime: props.defaultTime,
+          rangeSeparator: props.rangeSeparator,
+          pickerOptions: props.pickerOptions,
+          unlinkPanels: props.unlinkPanels,
+          validateEvent: props.validateEvent,
+          // 原生属性
+          name: props.name,
+          placeholder: props.placeholder,
+        },
+        on: {
+          input(value) {
+            formDate.value[props.key] = value
           }
-        })
-      ))
-    case 'upload':
+        }
+      })
+
     case 'file':
+    case 'upload':
       return h(ElUpload, {
         props: {
-          fileList: formDate.value[props.key],
           disabled: props.disabled,
           action: props.action,
           headers: props.headers,
@@ -205,11 +240,11 @@ function renderInput(props, { formRef, formDate, context }) {
           beforeRemove: props.beforeRemove,
           listType: props.listType,
           autoUpload: props.autoUpload,
-          // fileList: props.fileList,
+          fileList: props.fileList,
           httpRequest: props.httpRequest,
           limit: props.limit,
           onExceed: props.onExceed,
-          name: context.attrs.name,
+          name: props.name,
         }
       }, [
         h(ElButton, {

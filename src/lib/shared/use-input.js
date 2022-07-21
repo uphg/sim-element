@@ -277,7 +277,7 @@ function useInput(props, context, options = { onKeyup: null, onInput: null }) {
     })
   }, {
     type: [
-      'date', 'year', 'month', 'date', 'dates', 'week', 'daterange', 'monthrange',
+      'date', 'year', 'month', 'dates', 'week', 'daterange', 'monthrange',
       'datetime', 'datetimerange'
     ],
     expose: {

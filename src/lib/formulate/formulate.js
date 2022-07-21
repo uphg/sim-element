@@ -1,29 +1,49 @@
 import { h, ref } from "vue"
 import { Form as ElForm, FormItem as ElFormItem, Input as ElInput } from "element-ui"
+import { isArray } from "../../utils"
 import renderInput from './render-input'
 
-function createFormData(fileds) {
-  const filedKeys = {}
-  fileds.forEach(({ type, key }) => {
+function initFormData(baseFileds, filedsIsArray) {
+  const result = {}
+  const fileds = filedsIsArray ? baseFileds : Object.keys(baseFileds)
+  fileds.forEach((value, _key) => {
+    const key = filedsIsArray ? value.key : value
+    const type = filedsIsArray ? value.type : baseFileds[value]?.type
     if (!key) return
     switch (type) {
       case 'checkbox':
       case 'file':
       case 'upload':
-        filedKeys[key] = []
+        result[key] = []
         break;
       case 'switch':
-        filedKeys[key] = false
+        result[key] = false
+        break;
+      case '$chlidren':
+        break;
       default:
-        filedKeys[key] = ''
+        result[key] = ''
     }
   })
-  return filedKeys
+  return result
+}
+
+function mapFileds(baseFileds, callback, filedsIsArray) {
+  const fileds = filedsIsArray ? baseFileds : Object.keys(baseFileds)
+  const result = []
+  fileds.forEach((value, index) => {
+    const item = filedsIsArray ? value : { ...baseFileds[value], key: value }
+    callback(item, index)
+    result.push(item)
+  })
+
+  return result
 }
 
 export default {
   name: 'SFormulate',
   props: {
+    data: [Object],
     fileds: [Array, Object],
     labelPosition: String,
     labelWidth: String,
@@ -34,17 +54,18 @@ export default {
     validateOnRuleChange: false, // 是否在 rules 属性改变后立即触发一次验证，El 默认 true
     withValidator: Boolean, // 是否开启验证
     withEnterNext: Boolean, // 是否开启回车换行
-    data: [Object],
     size: String,
   },
   setup(_props, context) {
     const props = _props.data ? _props.data : _props
+    const filedsIsArray = isArray(props.fileds)
+
     const formRef = ref(null)
-    const formDate = ref(createFormData(props.fileds))
     const rules = ref({})
 
-    props.fileds.forEach((item) => {
-      const { key, type, label, required, rules: _rules } = item
+    const formDate = ref(initFormData(props.fileds, filedsIsArray))
+    const fileds = mapFileds(props.fileds, (item) => {
+      const { type, key, label, required, rules: _rules } = item
       if (_rules) {
         rules.value[key] = _rules
       } else if (props.withValidator && !['submit', 'button'].includes(type) && typeof required !== 'boolean') {
@@ -53,7 +74,16 @@ export default {
           { required: true, message: prefix + label, trigger: 'blur' }
         ]
       }
-    })
+    }, filedsIsArray)
+
+    function setFormData(obj) {
+      const keys = Object.keys(obj)
+      keys.forEach((key) => {
+        formDate.value[key] = obj[key]
+      })
+    }
+
+    context.expose({ setFormData })
 
     return () => h(ElForm, {
       ref: (el) => formRef.value = el,
@@ -65,10 +95,11 @@ export default {
         labelSuffix: props.labelSuffix,
         validateOnRuleChange: props.validateOnRuleChange,
       }
-    }, props.fileds.map((item) => h(ElFormItem, {
+    }, fileds.map((item) => h(ElFormItem, {
       props: {
         label: item.label,
-        prop: item.key
+        prop: item.key,
+        required: item.required
       }
     }, Array.isArray(item) ? item.map(piece => renderInput(piece, { formRef, formDate, context })) : [renderInput(item, { formRef, formDate, context })]))
     )

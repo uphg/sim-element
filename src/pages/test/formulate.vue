@@ -1,6 +1,8 @@
 <template>
   <div class="test-formulate">
-    <s-formulate :data="data" />
+    <s-formulate ref :data="data" />
+    <br>
+    <s-formulate :data="data2" />
   </div>
 </template>
 
@@ -154,11 +156,129 @@ const fileds = [
   ]
 ]
 
+const fileds2 = {
+  username: {
+    label: '用户名',
+    exclude: /[^\w]/g,
+    maxlength: 20,
+    rules: [
+      { required: true, message: `请输入用户名`, trigger: 'blur' },
+      { min: 6, message: `最小长度在 6 个字符以上`, trigger: 'blur' }
+    ]
+  },
+  password: {
+    type: 'password',
+    label: '密码',
+    exclude: /[\u4E00-\u9FA5\s]/g,
+    maxlength: 20,
+    rules: [
+      { required: true, message: `请输入密码`, trigger: 'blur' },
+      { min: 6, message: `最小长度在 6 个字符以上`, trigger: 'blur' }
+    ]
+  },
+  checkPassword: {
+    label: '确认密码',
+    showPassword: true,
+    exclude: /[\u4E00-\u9FA5\s]/g,
+    maxlength: 20,
+    rules: [
+      { required: true, message: `请输入确认密码`, trigger: 'blur' },
+      { min: 6, message: `最小长度在 6 个字符以上`, trigger: 'blur' }
+    ]
+  },
+  phone: {
+    label: '手机号',
+    exclude: /^0|[^\d]/g,
+    maxlength: 11
+  },
+  date: {
+    type: 'date',
+    label: '活动时间'
+  },
+  number: {
+    type: 'number',
+    label: '数量',
+    max: 10,
+    min: 2
+  },
+  delivery: {
+    type: 'switch',
+    label: '即时配送'
+  },
+  region: {
+    type: 'select',
+    label: '活动区域',
+    options: [
+      { label: '区域1', value: 0 },
+      { label: '区域2', value: 1 },
+      { label: '区域3', value: 2, disabled: true },
+      { label: '区域4', value: 3 }
+    ]
+  },
+  type: {
+    type: 'checkbox',
+    label: '活动性质',
+    options: [
+      { label: '区域1', value: 0 },
+      { label: '区域2', value: 1 },
+      { label: '区域3', value: 2, disabled: true },
+      { label: '区域4', value: 3 }
+    ],
+  },
+  resource: {
+    type: 'radio',
+    label: '特殊资源',
+    options: [
+      { label: '区域1', value: 0 },
+      { label: '区域2', value: 1 },
+      { label: '区域3', value: 2, disabled: true },
+      { label: '区域4', value: 3 }
+    ]
+  },
+  file: {
+    type: 'file',
+    label: '上传文件',
+    action: 'https://jsonplaceholder.typicode.com/posts/',
+    tip: '只能上传jpg/png文件，且不超过500kb',
+    onPreview(file) {
+      console.log(file);
+    },
+    onRemove(file, fileList) {
+      console.log(file, fileList);
+    }
+  },
+  $chlidren: [
+    {
+      type: 'submit',
+      text: '提交',
+      hue: 'primary',
+      onSubmit(formData) {
+        console.log('formData')
+        console.log(formData)
+      }
+    },
+    {
+      type: 'button',
+      text: '取消',
+      onClick() {
+
+      }
+    }
+  ]
+}
+
 const data = {
   labelPosition: 'left',
   labelWidth: '80px',
   withValidator: true,
   fileds,
+}
+
+const data2 = {
+  labelPosition: 'left',
+  labelWidth: '80px',
+  withValidator: true,
+  fileds: fileds2,
 }
 </script>
 

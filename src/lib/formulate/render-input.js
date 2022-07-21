@@ -232,7 +232,10 @@ function renderInput(props, { formRef, formDate, context }) {
           accept: props.accept, // accept="image/png, image/jpeg"
           onPreview: props.onPreview,
           onRemove: props.onRemove,
-          onSuccess: props.onSuccess,
+          onSuccess: (response, file, fileList) => {
+            formDate.value[props.key] = fileList
+            props.onSuccess && props.onSuccess(response, file, fileList)
+          },
           onError: props.onError,
           onProgress: props.onProgress,
           onChange: props.onChange,

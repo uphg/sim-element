@@ -1,13 +1,13 @@
 <template>
   <div class="test-formulate">
-    <s-formulate label-position="left" label-width="80px" :fileds="fileds" />
+    <s-formulate :data="data" />
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue';
 
-const fileds = ref([
+const fileds = [
   {
     key: 'username',
     label: '用户名',
@@ -142,7 +142,13 @@ const fileds = ref([
       }
     }
   ]
-])
+]
+
+const data = {
+  labelPosition: 'left',
+  labelWidth: '80px',
+  fileds,
+}
 </script>
 
 <style lang="scss">

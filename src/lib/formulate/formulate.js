@@ -42,16 +42,15 @@ export default {
       default: ''
     },
     validateOnRuleChange: false, // 是否在 rules 属性改变后立即触发一次验证，El 默认 true
+    data: [Object],
     size: String,
   },
-  setup(props, context) {
-    
+  setup(_props, context) {
+    const props = _props.data ? _props.data : _props
     const formRef = ref(null)
     const formDate = ref(createFormData(props.fileds))
     const rules = ref(createRules(props.fileds))
-    console.log('rules')
-    console.log(rules)
-    
+
     const render = () => h(ElForm, {
       ref: (el) => formRef.value = el,
       props: {

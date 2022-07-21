@@ -15,10 +15,10 @@ const createTestRoutes = () => {
 }
 
 const routes = [
-  // {
-  //   path: '/',
-  //   component: () => import('src/test/index.vue')
-  // },
+  {
+    path: '/',
+    redirect: '/zh'
+  },
   {
     path: '/zh',
     component: () => import(`../pages/docs/zh.md`)

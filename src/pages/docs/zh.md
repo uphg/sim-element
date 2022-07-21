@@ -1,6 +1,18 @@
 # Sim Element
 
-Easier to use, more data-based Element components
+更易于使用，基于数据的 Element 组件。
+
+## Formulate 组件
+
+根据传入数据定制 form 表单
+
+<s-demo :component="FormulateBase" />
+
+:::code
+
+formulate/base
+
+:::
 
 ## Button 按钮
 
@@ -145,6 +157,7 @@ date/base
 属性配置见：[DatePicker 日期选择器 - Attributes](https://element.eleme.io/#/zh-CN/component/date-picker#attributes)
 
 <script setup>
+import FormulateBase from 'src/examples/formulate/base.vue'
 import ButtonBase from 'src/examples/button/base.vue'
 import InputBase from 'src/examples/input/base.vue'
 import InputPassword from 'src/examples/input/password.vue'

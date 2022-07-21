@@ -1,13 +1,15 @@
 <template>
   <div class="test-formulate">
-    <s-formulate ref :data="data" />
+    <s-formulate ref="formRef" :data="data" />
     <br>
     <s-formulate :data="data2" />
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, nextTick, onMounted } from 'vue';
+
+const formRef = ref(null)
 
 const fileds = [
   {
@@ -46,37 +48,25 @@ const fileds = [
     key: 'phone',
     label: '手机号',
     exclude: /^0|[^\d]/g,
-    maxlength: 11,
-    // rules: [
-    //   { required: true, message: `请输入确认密码`, trigger: 'blur' },
-    //   { min: 6, message: `最小长度在 6 个字符以上`, trigger: 'blur' }
-    // ]
+    maxlength: 11
   },
   {
     type: 'date',
     key: 'date',
     label: '活动时间',
-    // rules: [
-    //   { required: true, message: `请选择活动时间`, trigger: 'blur'  }
-    // ]
+    valueFormat: 'timestamp'
   },
   {
     type: 'number',
     key: 'number',
     label: '数量',
     max: 10,
-    min: 2,
-    // rules: [
-    //   { required: true, message: `请选择数量`, trigger: 'blur'  }
-    // ]
+    min: 2
   },
   {
     type: 'switch',
     key: 'delivery',
-    label: '即时配送',
-    // rules: [
-    //   { required: true, message: `请选择是否即时配送`, trigger: 'blur'  }
-    // ]
+    label: '即时配送'
   },
   {
     type: 'select',
@@ -87,10 +77,7 @@ const fileds = [
       { label: '区域2', value: 1 },
       { label: '区域3', value: 2, disabled: true },
       { label: '区域4', value: 3 }
-    ],
-    // rules: [
-    //   { required: true, message: `请选择活动区域`, trigger: 'blur' }
-    // ]
+    ]
   },
   {
     type: 'checkbox',
@@ -101,10 +88,7 @@ const fileds = [
       { label: '区域2', value: 1 },
       { label: '区域3', value: 2, disabled: true },
       { label: '区域4', value: 3 }
-    ],
-    // rules: [
-    //   { required: true, message: `请选择活动性质`, trigger: 'blur' }
-    // ]
+    ]
   },
   {
     type: 'radio',
@@ -115,10 +99,7 @@ const fileds = [
       { label: '区域2', value: 1 },
       { label: '区域3', value: 2, disabled: true },
       { label: '区域4', value: 3 }
-    ],
-    // rules: [
-    //   { required: true, message: `请选择特殊资源`, trigger: 'blur' }
-    // ]
+    ]
   },
   {
     type: 'file',
@@ -131,10 +112,7 @@ const fileds = [
     },
     onRemove(file, fileList) {
       console.log(file, fileList);
-    },
-    // rules: [
-    //   { required: true, message: `请选择上传文件`, trigger: 'blur'  }
-    // ]
+    }
   },
   [
     {
@@ -193,7 +171,8 @@ const fileds2 = {
   },
   date: {
     type: 'date',
-    label: '活动时间'
+    label: '活动时间',
+    valueFormat: 'timestamp'
   },
   number: {
     type: 'number',
@@ -280,6 +259,18 @@ const data2 = {
   withValidator: true,
   fileds: fileds2,
 }
+
+console.log('formRef')
+console.log(formRef)
+
+
+onMounted(() => {
+  formRef.value.setFormData({ username: 'Jack', phone: '15631102331', date: 1658412703406 })
+})
+
+nextTick(() => {
+  
+})
 </script>
 
 <style lang="scss">

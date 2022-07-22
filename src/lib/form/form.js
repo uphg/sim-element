@@ -21,7 +21,7 @@ export default {
     validateOnRuleChange: false, // 是否在 rules 属性改变后立即触发一次验证，El 默认 true
 
     // customize props
-    withValidator: Boolean, // 是否开启验证
+    withValidate: Boolean, // 是否开启验证
     withEnterNext: Boolean, // 是否开启回车换行
   },
   setup(props, context) {

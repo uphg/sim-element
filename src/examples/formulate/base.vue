@@ -3,6 +3,8 @@
 </template>
 
 <script setup>
+import errorFormat from './errorFormat'
+
 const fileds = [
   {
     key: 'username',
@@ -95,7 +97,7 @@ const fileds = [
   {
     type: 'file',
     key: 'file',
-    label: '上传文件',
+    label: '证明文件',
     action: 'https://jsonplaceholder.typicode.com/posts/',
     tip: '只能上传jpg/png文件，且不超过500kb',
     onPreview(file) {
@@ -127,7 +129,8 @@ const fileds = [
 const data = {
   labelPosition: 'left',
   labelWidth: '80px',
-  withValidator: true,
+  withValidate: true,
+  errorFormat,
   fileds,
 }
 </script>

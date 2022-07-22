@@ -16,6 +16,7 @@ import {
   Upload as ElUpload
 } from 'element-ui'
 import { h } from 'vue'
+import { isArray } from '../../utils'
 
 function renderInput(props, { formRef, formDate, context }) {
   switch (props.type || 'text') {
@@ -247,19 +248,25 @@ function renderInput(props, { formRef, formDate, context }) {
           httpRequest: props.httpRequest,
           limit: props.limit,
           onExceed: props.onExceed,
-          name: props.name,
+          name: props.name
         }
       }, [
-        h(ElButton, {
-          props: {
-            type: 'primary',
-            size: 'small',
-          }
-        }, ['点击上传']),
-        h('div', {
-          class: 'el-upload__tip',
+        ...(
+          props.slots ? props.slots : [h(ElButton, {
+            props: {
+              type: 'primary',
+              size: 'small',
+            }
+          }, ['点击上传'])]
+        ),
+        props.tip && h('div', {
+          class: props.tipClass || 'el-upload__tip',
           slot: 'tip',
-        }, [props.tip])
+        }, isArray(props.tip) ? props.tip.map((item) => h('div', {
+          class: props.tipItemClass || 'el-upload__tip-item',
+        }, [item])) : [h('div', {
+          class: props.tipItemClass || 'el-upload__tip-item'
+        }, [props.tip])])
       ]
       )
     case 'button':

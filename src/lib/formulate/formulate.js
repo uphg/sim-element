@@ -19,8 +19,6 @@ function initFormData(baseFileds, filedsIsArray) {
       case 'switch':
         result[key] = false
         break;
-      case '$children':
-        break;
       default:
         if (/^\$/.test(key)) {
           break
@@ -39,7 +37,7 @@ function mapFileds(baseFileds, callback, filedsIsArray) {
     if (filedsIsArray) {
       item = value
     } else {
-      if (value === '$children') {
+      if (value === '$footer') {
         const filed = baseFileds[value]
         if (isArray(filed)) {
           item = filed
@@ -69,8 +67,9 @@ export default {
       default: ''
     },
     validateOnRuleChange: false, // 是否在 rules 属性改变后立即触发一次验证，El 默认 true
-    withValidator: Boolean, // 是否开启验证
+    withValidate: Boolean, // 是否开启验证
     withEnterNext: Boolean, // 是否开启回车换行
+    errorFormat: Function, // 错误提示格式，errorFormat({ type, key, label })
     size: String,
   },
   setup(_props, context) {
@@ -85,11 +84,8 @@ export default {
       const { type, key, label, required, rules: _rules } = item
       if (_rules) {
         rules.value[key] = _rules
-      } else if (props.withValidator && !['submit', 'button'].includes(type) && typeof required !== 'boolean') {
-        const prefix = `请${['checkbox', 'select', 'radio'].includes(type) ? '选择' : '输入'}`
-        rules.value[key] = [
-          { required: true, message: prefix + label, trigger: 'blur' }
-        ]
+      } else if (props.withValidate && props.errorFormat) {
+        rules.value[key] = props.errorFormat({ type, key, label })
       }
     }, filedsIsArray)
 

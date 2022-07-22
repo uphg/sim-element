@@ -5,12 +5,14 @@
     <s-formulate :data="data2" />
     <ElDivider />
     <s-formulate :data="data3" />
+    <ElDivider />
+    <s-formulate :data="data4" />
   </div>
 </template>
 
 <script setup>
-import { ref, nextTick, onMounted } from 'vue';
-import { Divider as ElDivider } from 'element-ui'
+import { ref, nextTick, onMounted, h } from 'vue';
+import { Divider as ElDivider, Button as ElButton } from 'element-ui'
 
 const formRef = ref(null)
 
@@ -107,7 +109,7 @@ const fileds = [
   {
     type: 'file',
     key: 'file',
-    label: '上传文件',
+    label: '证书文件',
     action: 'https://jsonplaceholder.typicode.com/posts/',
     tip: '只能上传jpg/png文件，且不超过500kb',
     onPreview(file) {
@@ -219,7 +221,7 @@ const fileds2 = {
   },
   file: {
     type: 'file',
-    label: '上传文件',
+    label: '证书文件',
     action: 'https://jsonplaceholder.typicode.com/posts/',
     tip: '只能上传jpg/png文件，且不超过500kb',
     onPreview(file) {
@@ -229,7 +231,7 @@ const fileds2 = {
       console.log(file, fileList);
     }
   },
-  $children: [
+  $footer: [
     {
       type: 'submit',
       text: '提交',
@@ -243,7 +245,7 @@ const fileds2 = {
       type: 'button',
       text: '取消',
       onClick() {
-
+        console.log('点击取消')
       }
     }
   ]
@@ -252,21 +254,65 @@ const fileds2 = {
 const data = {
   labelPosition: 'left',
   labelWidth: '80px',
-  withValidator: true,
+  withValidate: true,
   fileds,
 }
 
 const data2 = {
   labelPosition: 'left',
   labelWidth: '80px',
-  withValidator: true,
+  withValidate: true,
   fileds: fileds2,
 }
 
 const data3 = {
   labelPosition: 'left',
   labelWidth: '80px',
-  // withValidator: true,
+  fileds: {
+    name: { label: '活动名称' },
+    file: {
+      type: 'file',
+      label: '证书文件',
+      action: 'https://jsonplaceholder.typicode.com/posts/',
+      slots: [
+        { type: 'primary', text: '选择文件' },
+        { type: 'success', text: '上传到服务器' }
+      ].map((item) => h(ElButton, {
+        props: {
+          type: item.type,
+          size: 'small'
+        }
+      }, [item.text])),
+      tip: '只能上传jpg/png文件，且不超过500kb',
+      onPreview(file) {
+        console.log(file);
+      },
+      onRemove(file, fileList) {
+        console.log(file, fileList);
+      }
+    },
+    file2: {
+      type: 'file',
+      label: '证书文件2',
+      action: 'https://jsonplaceholder.typicode.com/posts/',
+      tip: [
+        '1. 只能上传jpg/png文件',
+        '2. 不超过500kb'
+      ],
+      onPreview(file) {
+        console.log(file);
+      },
+      onRemove(file, fileList) {
+        console.log(file, fileList);
+      }
+    }
+  }
+}
+
+
+const data4 = {
+  labelPosition: 'left',
+  labelWidth: '80px',
   fileds: {
     name: { label: '活动名称' },
     region: {
@@ -277,23 +323,7 @@ const data3 = {
         { label: '区域2', value: 1 }
       ]
     },
-    $children: {
-      $submit: {
-        text: '提交',
-        hue: 'primary',
-        onSubmit(formData) {
-          console.log('formData')
-          console.log(formData)
-        }
-      },
-      $button: {
-        text: '取消',
-        onClick() {
-          console.log('点击取消')
-        }
-      }
-    }
-  },
+  }
 }
 
 onMounted(() => {
@@ -307,8 +337,13 @@ nextTick(() => {
 
 <style lang="scss">
 .test-formulate {
-  .el-upload__tip {
-    line-height: 1em;
+  .el-upload{
+    &__tip {
+      line-height: 1.6em;
+    }
+    // &__tip-item {
+    //   line-height: 1em;
+    // }
   }
 }
 </style>

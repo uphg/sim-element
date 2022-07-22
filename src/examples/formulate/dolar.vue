@@ -18,7 +18,7 @@ const data = {
         { label: '区域2', value: 1 }
       ]
     },
-    $children: {
+    $footer: {
       $submit: {
         text: '提交',
         hue: 'primary',

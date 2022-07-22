@@ -22,6 +22,9 @@ function initFormData(baseFileds, filedsIsArray) {
       case '$children':
         break;
       default:
+        if (/^\$/.test(key)) {
+          break
+        }
         result[key] = ''
     }
   })
@@ -40,12 +43,8 @@ function mapFileds(baseFileds, callback, filedsIsArray) {
         const filed = baseFileds[value]
         if (isArray(filed)) {
           item = filed
-          console.log('isArray - item')
-          console.log(item)
         } else {
           item = mapFileds(filed, null, false)
-          console.log('item')
-          console.log(item)
         }
       } else if (/^\$/.test(value)) {
         item = { ...baseFileds[value], type: value.replace('$', '') }

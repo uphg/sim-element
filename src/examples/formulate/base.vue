@@ -3,7 +3,7 @@
 </template>
 
 <script setup>
-import errorFormat from './errorFormat'
+import errorFormat from '../../utils/errorFormat'
 
 const fileds = [
   {

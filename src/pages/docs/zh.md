@@ -24,6 +24,30 @@ formulate/base
 
 :::
 
+封装 errorFormat 示例
+
+```js
+const selectTypes = [
+  'select', 'checkbox', 'radio', 'switch', 
+  'date', 'year', 'month', 'dates', 'week',
+  'daterange', 'monthrange', 'datetime', 'datetimerange'
+]
+
+function errorFormat({ type, label, key }) {
+  let prefix
+  if (selectTypes.includes(type)) {
+    prefix = '请选择'
+  } else if (['file', 'upload'].includes(type)) {
+    prefix = '请上传'
+  } else {
+    prefix = '请输入'
+  }
+  return [
+    { required: true, message: prefix + label, trigger: 'blur' }
+  ]
+}
+```
+
 
 ## Button 按钮
 

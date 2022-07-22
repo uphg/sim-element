@@ -1,18 +1,36 @@
 import { formGlobalFieldsKey } from './shared/form-providers'
-export { default as Input } from './input'
-export { default as Form } from './form'
-export { default as FormItem } from './form-item'
-export { default as Formulate } from './formulate'
-export { formGlobalFieldsKey }
 
-export function install(Vue) {
-  Vue.component(Form.name, Form);
-  Vue.component(FormItem.name, FormItem);
-  Vue.component(Formulate.name, Formulate);
+import Input  from './input/index'
+import Form  from './form'
+import FormItem  from './form-item'
+import Formulate  from './formulate'
+import Table  from './table'
+
+function install(Vue) {
+  Vue.use(Input)
+  Vue.use(Form)
+  Vue.use(FormItem)
+  Vue.use(Formulate)
+  Vue.use(Table)
+  // Vue.component(Form.name, Form);
+  // Vue.component(FormItem.name, FormItem);
+  // Vue.component(Formulate.name, Formulate);
+  // Vue.component(Table.name, Table);
 }
 
-export function createFormGlobalField(fields) {
+function createFormGlobalField(fields) {
   return {
     [formGlobalFieldsKey]: fields
   }
+}
+
+export {
+  install,
+  Input,
+  Form,
+  FormItem,
+  Formulate,
+  Table,
+  formGlobalFieldsKey,
+  createFormGlobalField
 }

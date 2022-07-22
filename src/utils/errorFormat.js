@@ -1,8 +1,8 @@
-const selectTips = ['select', 'checkbox', 'radio', 'switch', 'date', 'year', 'month', 'dates', 'week', 'daterange', 'monthrange', 'datetime', 'datetimerange']
+const selectTypes = ['select', 'checkbox', 'radio', 'switch', 'date', 'year', 'month', 'dates', 'week', 'daterange', 'monthrange', 'datetime', 'datetimerange']
 
 function errorFormat({ type, label, key }) {
   let prefix
-  if (selectTips.includes(type)) {
+  if (selectTypes.includes(type)) {
     prefix = '请选择'
   } else if (['file', 'upload'].includes(type)) {
     prefix = '请上传'

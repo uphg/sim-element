@@ -1,13 +1,16 @@
 <template>
   <div class="test-formulate">
     <s-formulate ref="formRef" :data="data" />
-    <br>
+    <ElDivider />
     <s-formulate :data="data2" />
+    <ElDivider />
+    <s-formulate :data="data3" />
   </div>
 </template>
 
 <script setup>
 import { ref, nextTick, onMounted } from 'vue';
+import { Divider as ElDivider } from 'element-ui'
 
 const formRef = ref(null)
 
@@ -260,9 +263,38 @@ const data2 = {
   fileds: fileds2,
 }
 
-console.log('formRef')
-console.log(formRef)
-
+const data3 = {
+  labelPosition: 'left',
+  labelWidth: '80px',
+  // withValidator: true,
+  fileds: {
+    name: { label: '活动名称' },
+    region: {
+      type: 'select',
+      label: '活动区域',
+      options: [
+        { label: '区域1', value: 0 },
+        { label: '区域2', value: 1 }
+      ]
+    },
+    $chlidren: {
+      $submit: {
+        text: '提交',
+        hue: 'primary',
+        onSubmit(formData) {
+          console.log('formData')
+          console.log(formData)
+        }
+      },
+      $button: {
+        text: '取消',
+        onClick() {
+          console.log('点击取消')
+        }
+      }
+    }
+  },
+}
 
 onMounted(() => {
   formRef.value.setFormData({ username: 'Jack', phone: '15631102331', date: 1658412703406 })

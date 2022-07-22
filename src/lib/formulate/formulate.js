@@ -30,14 +30,28 @@ function initFormData(baseFileds, filedsIsArray) {
 
 function mapFileds(baseFileds, callback, filedsIsArray) {
   const fileds = filedsIsArray ? baseFileds : Object.keys(baseFileds)
-  const result = []
-  fileds.forEach((value, index) => {
-    const item = filedsIsArray ? value : { ...baseFileds[value], key: value }
-    callback(item, index)
-    result.push(item)
-  })
 
-  return result
+  return fileds.map((value, index) => {
+    let item
+    if (filedsIsArray) {
+      item = value
+    } else {
+      if (value === '$chlidren') {
+        const filed = baseFileds[value]
+        if (isArray(filed)) {
+          item = filed
+        } else {
+          item = mapFileds(filed, null, false)
+        }
+      } else if (/^\$/.test(value)) {
+        item = { ...baseFileds[value], type: value.replace('$', '') }
+      } else {
+        item = { ...baseFileds[value], key: value }
+      }
+    }
+    callback && callback(item, index)
+    return item
+  })
 }
 
 export default {
@@ -101,7 +115,7 @@ export default {
         prop: item.key,
         required: item.required
       }
-    }, Array.isArray(item) ? item.map(piece => renderInput(piece, { formRef, formDate, context })) : [renderInput(item, { formRef, formDate, context })]))
+    }, isArray(item) ? item.map(piece => renderInput(piece, { formRef, formDate, context })) : [renderInput(item, { formRef, formDate, context })]))
     )
   }
 }

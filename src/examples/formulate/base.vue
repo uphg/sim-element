@@ -111,14 +111,15 @@ const fileds = [
       text: '提交',
       hue: 'primary',
       onSubmit(formData) {
-        console.log('表单数据')
         console.log(formData)
       }
     },
     {
       type: 'button',
       text: '取消',
-      onClick() { console.log('点击取消') }
+      onClick() {
+        console.log('点击取消')
+      }
     }
   ]
 ]

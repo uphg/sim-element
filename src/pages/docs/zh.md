@@ -4,7 +4,17 @@
 
 ## Formulate 组件
 
-根据传入数据定制 form 表单
+根据传入数据定制 form 表单，基本用法
+
+<s-demo :component="FormulateDolar" />
+
+:::code
+
+formulate/dolar
+
+:::
+
+数组类型 fileds
 
 <s-demo :component="FormulateBase" />
 
@@ -13,6 +23,7 @@
 formulate/base
 
 :::
+
 
 ## Button 按钮
 
@@ -157,6 +168,7 @@ date/base
 属性配置见：[DatePicker 日期选择器 - Attributes](https://element.eleme.io/#/zh-CN/component/date-picker#attributes)
 
 <script setup>
+import FormulateDolar from 'src/examples/formulate/dolar.vue'
 import FormulateBase from 'src/examples/formulate/base.vue'
 import ButtonBase from 'src/examples/button/base.vue'
 import InputBase from 'src/examples/input/base.vue'

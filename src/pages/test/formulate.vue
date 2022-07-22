@@ -229,7 +229,7 @@ const fileds2 = {
       console.log(file, fileList);
     }
   },
-  $chlidren: [
+  $children: [
     {
       type: 'submit',
       text: '提交',
@@ -277,7 +277,7 @@ const data3 = {
         { label: '区域2', value: 1 }
       ]
     },
-    $chlidren: {
+    $children: {
       $submit: {
         text: '提交',
         hue: 'primary',

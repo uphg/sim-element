@@ -89,6 +89,22 @@ export default {
       }
     }, filedsIsArray)
 
+    function validate(callback) {
+      formRef.value.validate(callback)
+    }
+
+    function validateField(props, callback) {
+      formRef.value.clearValidate(props, callback)
+    }
+
+    function resetFields() {
+      formRef.value.clearValidate()
+    }
+
+    function clearValidate(props) {
+      formRef.value.clearValidate(props)
+    }
+
     function setFormData(obj) {
       const keys = Object.keys(obj)
       keys.forEach((key) => {
@@ -100,17 +116,16 @@ export default {
       return formData.value
     }
 
-    function clearValidate() {
-      formRef.value.clearValidate()
-    }
-
     function submit(callback) {
-      formRef.value.validate((valid) => {
-        callback(valid, formData.value)
+      formRef.value.validate((valid, errors) => {
+        callback(formData.value, { valid, errors })
       })
     }
 
     context.expose({
+      validate,
+      validateField,
+      resetFields,
       clearValidate,
       get formData() {
         return formData.value

@@ -112,25 +112,7 @@ const fileds = [
     onRemove(file, fileList) {
       console.log(file, fileList);
     }
-  },
-  // [
-  //   {
-  //     type: 'submit',
-  //     text: '提交',
-  //     hue: 'primary',
-  //     onSubmit(formData) {
-  //       console.log(formData)
-  //     }
-  //   },
-  //   {
-  //     type: 'button',
-  //     text: '清除校验',
-  //     onClick() {
-  //       console.log('点击取消')
-  //       formRef.value.clearValidate()
-  //     }
-  //   }
-  // ]
+  }
 ]
 
 const data = {
@@ -144,10 +126,11 @@ const data = {
 const formRef = ref(null)
 
 function onClick() {
-  formRef.value.submit((valid, formData) => {
-    console.log('valid, obj')
-    console.log(valid)
+  formRef.value.submit((formData, { valid, errors }) => {
+    console.log('formData')
     console.log(formData)
+    console.log('errors')
+    console.log(errors)
   })
 }
 

@@ -9,10 +9,13 @@
 <script setup>
 import { ref } from 'vue';
 import { Button as ElButton } from 'element-ui'
+import errorFormat from '../../utils/errorFormat'
 
 const data = {
   labelPosition: 'left',
   labelWidth: '80px',
+  withValidate: true,
+  errorFormat,
   fileds: {
     name: {
       label: '活动名称'
@@ -31,10 +34,13 @@ const data = {
 const formRef = ref(null)
 
 function onClick() {
-  formRef.value.submit((valid, formData) => {
-    console.log('valid, obj')
-    console.log(valid)
+  formRef.value.submit((formData, { valid, errors }) => {
+    console.log('formData')
     console.log(formData)
+    console.log('valid')
+    console.log(valid)
+    console.log('errors')
+    console.log(errors)
   })
 }
 

@@ -79,7 +79,7 @@ export default {
     const formRef = ref(null)
     const rules = ref({})
 
-    const formDate = ref(initFormData(props.fileds, filedsIsArray))
+    const formData = ref(initFormData(props.fileds, filedsIsArray))
     const fileds = mapFileds(props.fileds, (item) => {
       const { type, key, label, required, rules: _rules } = item
       if (_rules) {
@@ -90,19 +90,39 @@ export default {
     }, filedsIsArray)
 
     function setFormData(obj) {
+      console.log('obj')
+      console.log(obj)
       const keys = Object.keys(obj)
       keys.forEach((key) => {
-        formDate.value[key] = obj[key]
+        formData.value[key] = obj[key]
       })
     }
 
-    context.expose({ setFormData })
+    function getFormData() {
+      return formData.value
+    }
+
+    function clearValidate() {
+      formRef.value.clearValidate()
+    }
+
+    context.expose({
+      clearValidate,
+      get formData() {
+        return formData.value
+      },
+      set formData(obj) {
+        setFormData(obj)
+      },
+      setFormData,
+      getFormData,
+    })
 
     return () => h(ElForm, {
       ref: (el) => formRef.value = el,
       props: {
         rules: rules.value,
-        model: formDate.value,
+        model: formData.value,
         labelPosition: props.labelPosition,
         labelWidth: props.labelWidth,
         labelSuffix: props.labelSuffix,
@@ -114,7 +134,7 @@ export default {
         prop: item.key,
         required: item.required
       }
-    }, isArray(item) ? item.map(piece => renderInput(piece, { formRef, formDate, context })) : [renderInput(item, { formRef, formDate, context })]))
+    }, isArray(item) ? item.map(piece => renderInput(piece, { formRef, formData, context })) : [renderInput(item, { formRef, formData, context })]))
     )
   }
 }

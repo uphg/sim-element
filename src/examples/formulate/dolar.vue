@@ -1,8 +1,15 @@
 <template>
-  <s-formulate :data="data" />
+  <div>
+    <s-formulate ref="formRef" :data="data" />
+    <Button @click="onClick">提交</Button>
+    <Button @click="onClickSetForm">设置表单</Button>
+  </div>
 </template>
 
 <script setup>
+import { ref } from 'vue';
+import { Button } from 'element-ui'
+
 const data = {
   labelPosition: 'left',
   labelWidth: '80px',
@@ -17,22 +24,20 @@ const data = {
         { label: '区域1', value: 0 },
         { label: '区域2', value: 1 }
       ]
-    },
-    $footer: {
-      $submit: {
-        text: '提交',
-        hue: 'primary',
-        onSubmit(formData) {
-          console.log(formData)
-        }
-      },
-      $button: {
-        text: '取消',
-        onClick() {
-          console.log('点击取消')
-        }
-      }
     }
   }
+}
+
+const formRef = ref(null)
+
+function onClick() {
+  const { formData } = formRef.value
+  console.log('formData')
+  console.log(formData)
+}
+
+function onClickSetForm() {
+  formRef.value.formData.name = 'hi'
+  formRef.value.formData = { region: 1 }
 }
 </script>

@@ -97,7 +97,7 @@ function useInput(props, context, options = { onKeyup: null, onInput: null }) {
         blur: onBlur,
         ...nativeOn
       },
-    }, [props.text ? props.text : context.slots?.default?.()])
+    }, [props.text ? props.text : context.slots?.default()])
   }, {
     type: 'radio',
     render: () => h(ElRadioGroup, {

@@ -4,8 +4,8 @@ export default {
   name: 'SInput',
   props: inputProps,
   setup(props, context) {
-    const template =  useInput(props, context)
-    template.expose && context.expose(template.expose)
-    return template.render
+    const { render, expose } = useInput(props, context)
+    expose && context.expose(expose)
+    return render
   }
 }

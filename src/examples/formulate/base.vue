@@ -1,8 +1,9 @@
 <template>
-  <s-formulate class="sim-formulate" :data="data" />
+  <s-formulate ref="formRef" class="sim-formulate" :data="data" />
 </template>
 
 <script setup>
+import { ref } from 'vue';
 import errorFormat from '../../utils/errorFormat'
 
 const fileds = [
@@ -118,9 +119,10 @@ const fileds = [
     },
     {
       type: 'button',
-      text: '取消',
+      text: '清除校验',
       onClick() {
         console.log('点击取消')
+        formRef.value.clearValidate()
       }
     }
   ]
@@ -133,6 +135,8 @@ const data = {
   errorFormat,
   fileds,
 }
+
+const formRef = ref(null)
 </script>
 
 <style lang="scss">

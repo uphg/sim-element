@@ -18,7 +18,7 @@ import {
 import { h } from 'vue'
 import { isArray } from '../../utils'
 
-function renderInput(props, { formRef, formDate, context }) {
+function renderInput(props, { formRef, formData, context }) {
   switch (props.type || 'text') {
     case 'text':
     case 'password':
@@ -26,7 +26,7 @@ function renderInput(props, { formRef, formDate, context }) {
       return h(ElInput, {
         props: {
           type: props.type,
-          value: formDate.value[props.key],
+          value: formData.value[props.key],
           disabled: props.disabled,
           clearable: props.clearable,
           suffixIcon: props.suffixIcon,
@@ -40,14 +40,14 @@ function renderInput(props, { formRef, formDate, context }) {
         },
         on: {
           input(value) {
-            formDate.value[props.key] = value
+            formData.value[props.key] = value
           }
         }
       })
     case 'number':
       return h(ElInputNumber, {
         props: {
-          value: formDate.value[props.key],
+          value: formData.value[props.key],
           disabled: props.disabled,
           step: props.step,
           stepStrictly: props.stepStrictly,
@@ -63,19 +63,19 @@ function renderInput(props, { formRef, formDate, context }) {
         on: {
           input(newVal) {
             if (props.value === newVal) return
-            formDate.value[props.key] = newVal
+            formData.value[props.key] = newVal
           }
         }
       })
     case 'radio':
       return h(ElRadioGroup, {
         props: {
-          value: formDate.value[props.key],
+          value: formData.value[props.key],
           disabled: props.disabled,
         },
         on: {
           input(value) {
-            formDate.value[props.key] = value
+            formData.value[props.key] = value
           }
         }
       }, props.options.map(
@@ -89,12 +89,12 @@ function renderInput(props, { formRef, formDate, context }) {
     case 'checkbox':
       return h(ElCheckboxGroup, {
         props: {
-          value: formDate.value[props.key],
+          value: formData.value[props.key],
           disabled: props.disabled,
         },
         on: {
           input(value) {
-            formDate.value[props.key] = value
+            formData.value[props.key] = value
           }
         }
       }, props.options.map(
@@ -108,12 +108,12 @@ function renderInput(props, { formRef, formDate, context }) {
     case 'select':
       return h(ElSelect, {
         props: {
-          value: formDate.value[props.key],
+          value: formData.value[props.key],
           disabled: props.disabled,
         },
         on: {
           input(value) {
-            formDate.value[props.key] = value
+            formData.value[props.key] = value
           }
         }
       }, props.options.map(
@@ -128,7 +128,7 @@ function renderInput(props, { formRef, formDate, context }) {
     case 'cascader':
       return h(ElCascader, {
         props: {
-          value: formDate.value[props.key],
+          value: formData.value[props.key],
           disabled: props.disabled,
           options: props.options,
           clearable: props.clearable,
@@ -138,14 +138,14 @@ function renderInput(props, { formRef, formDate, context }) {
         },
         on: {
           input(value) {
-            formDate.value[props.key] = value
+            formData.value[props.key] = value
           }
         }
       })
     case 'switch':
       return h(ElSwitch, {
         props: {
-          value: formDate.value[props.key],
+          value: formData.value[props.key],
           disabled: props.disabled,
           width: props.width,
           activeIconClass: props.activeIconClass,
@@ -160,19 +160,19 @@ function renderInput(props, { formRef, formDate, context }) {
         },
         on: {
           input(value) {
-            formDate.value[props.key] = value
+            formData.value[props.key] = value
           }
         }
       })
     case 'slider':
       return h(ElSwitch, {
         props: {
-          value: formDate.value[props.key],
+          value: formData.value[props.key],
           disabled: props.disabled
         },
         on: {
           input(value) {
-            formDate.value[props.key] = value
+            formData.value[props.key] = value
           }
         }
       })
@@ -187,7 +187,7 @@ function renderInput(props, { formRef, formDate, context }) {
     case 'datetimerange':
       return h(ElDatePicker, {
         props: {
-          value: formDate.value[props.key],
+          value: formData.value[props.key],
           type: props.type,
           format: props.format,
           valueFormat: props.valueFormat,
@@ -213,7 +213,7 @@ function renderInput(props, { formRef, formDate, context }) {
         },
         on: {
           input(value) {
-            formDate.value[props.key] = value
+            formData.value[props.key] = value
           }
         }
       })
@@ -234,7 +234,7 @@ function renderInput(props, { formRef, formDate, context }) {
           onPreview: props.onPreview,
           onRemove: props.onRemove,
           onSuccess: (response, file, fileList) => {
-            formDate.value[props.key] = fileList
+            formData.value[props.key] = fileList
             props.onSuccess && props.onSuccess(response, file, fileList)
           },
           onError: props.onError,
@@ -280,7 +280,7 @@ function renderInput(props, { formRef, formDate, context }) {
         on: {
           click: props.type === 'submit' ? () => {
             formRef.value.validate((valid) => {
-              valid && props.onSubmit ? props.onSubmit(formDate.value) : context.emit('submit', formDate.value)
+              valid && props.onSubmit ? props.onSubmit(formData.value) : context.emit('submit', formData.value)
             })
           } : (event) => {
             props.onClick(event)

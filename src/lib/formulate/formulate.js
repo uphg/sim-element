@@ -90,8 +90,6 @@ export default {
     }, filedsIsArray)
 
     function setFormData(obj) {
-      console.log('obj')
-      console.log(obj)
       const keys = Object.keys(obj)
       keys.forEach((key) => {
         formData.value[key] = obj[key]

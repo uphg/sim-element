@@ -1,14 +1,14 @@
 <template>
   <div>
     <s-formulate ref="formRef" :data="data" />
-    <Button @click="onClick">提交</Button>
-    <Button @click="onClickSetForm">设置表单</Button>
+    <el-button @click="onClick">提交</el-button>
+    <el-button @click="onClickSetForm">设置表单</el-button>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue';
-import { Button } from 'element-ui'
+import { Button as ElButton } from 'element-ui'
 
 const data = {
   labelPosition: 'left',

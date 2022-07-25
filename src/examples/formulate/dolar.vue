@@ -31,9 +31,11 @@ const data = {
 const formRef = ref(null)
 
 function onClick() {
-  const { formData } = formRef.value
-  console.log('formData')
-  console.log(formData)
+  formRef.value.submit((valid, formData) => {
+    console.log('valid, obj')
+    console.log(valid)
+    console.log(formData)
+  })
 }
 
 function onClickSetForm() {

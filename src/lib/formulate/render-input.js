@@ -33,6 +33,9 @@ function renderInput(props, { formRef, formData, context }) {
           prefixIcon: props.prefixIcon,
           showWordLimit: props.showWordLimit,
           showPassword: props.showPassword,
+          rows: props.rows,
+          placeholder: props.placeholder,
+          autosize: props.autosize
         },
         attrs: {
           minlength: props.minlength,
@@ -110,6 +113,7 @@ function renderInput(props, { formRef, formData, context }) {
         props: {
           value: formData.value[props.key],
           disabled: props.disabled,
+          placeholder: props.placeholder
         },
         on: {
           input(value) {
@@ -134,7 +138,8 @@ function renderInput(props, { formRef, formData, context }) {
           clearable: props.clearable,
           showAllLevels: props.showAllLevels,
           props: props.props,
-          collapseTags: props.collapseTags
+          collapseTags: props.collapseTags,
+          placeholder: props.placeholder
         },
         on: {
           input(value) {
@@ -157,6 +162,7 @@ function renderInput(props, { formRef, formData, context }) {
           activeValue: props.activeValue,
           inactiveValue: props.inactiveValue,
           validateEvent: props.validateEvent,
+          placeholder: props.placeholder
         },
         on: {
           input(value) {

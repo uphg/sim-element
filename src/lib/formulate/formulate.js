@@ -104,6 +104,12 @@ export default {
       formRef.value.clearValidate()
     }
 
+    function submit(callback) {
+      formRef.value.validate((valid) => {
+        callback(valid, formData.value)
+      })
+    }
+
     context.expose({
       clearValidate,
       get formData() {
@@ -114,6 +120,7 @@ export default {
       },
       setFormData,
       getFormData,
+      submit,
     })
 
     return () => h(ElForm, {

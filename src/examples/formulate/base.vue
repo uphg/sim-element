@@ -1,9 +1,14 @@
 <template>
-  <s-formulate ref="formRef" class="sim-formulate" :data="data" />
+  <div>
+    <s-formulate ref="formRef" class="sim-formulate" :data="data" />
+    <el-button @click="onClick">提交</el-button>
+    <el-button @click="onClickSetForm">设置表单</el-button>
+  </div>
 </template>
 
 <script setup>
 import { ref } from 'vue';
+import { Button as ElButton } from 'element-ui'
 import errorFormat from '../../utils/errorFormat'
 
 const fileds = [
@@ -108,24 +113,24 @@ const fileds = [
       console.log(file, fileList);
     }
   },
-  [
-    {
-      type: 'submit',
-      text: '提交',
-      hue: 'primary',
-      onSubmit(formData) {
-        console.log(formData)
-      }
-    },
-    {
-      type: 'button',
-      text: '清除校验',
-      onClick() {
-        console.log('点击取消')
-        formRef.value.clearValidate()
-      }
-    }
-  ]
+  // [
+  //   {
+  //     type: 'submit',
+  //     text: '提交',
+  //     hue: 'primary',
+  //     onSubmit(formData) {
+  //       console.log(formData)
+  //     }
+  //   },
+  //   {
+  //     type: 'button',
+  //     text: '清除校验',
+  //     onClick() {
+  //       console.log('点击取消')
+  //       formRef.value.clearValidate()
+  //     }
+  //   }
+  // ]
 ]
 
 const data = {
@@ -137,6 +142,19 @@ const data = {
 }
 
 const formRef = ref(null)
+
+function onClick() {
+  formRef.value.submit((valid, formData) => {
+    console.log('valid, obj')
+    console.log(valid)
+    console.log(formData)
+  })
+}
+
+function onClickSetForm() {
+  formRef.value.formData.name = 'hi'
+  formRef.value.formData = { region: 1 }
+}
 </script>
 
 <style lang="scss">

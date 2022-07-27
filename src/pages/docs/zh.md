@@ -6,8 +6,6 @@
 
 根据传入数据定制 form 表单，基本用法
 
-<s-demo :component="FormulateDolar" />
-
 :::code
 
 formulate/dolar
@@ -15,8 +13,6 @@ formulate/dolar
 :::
 
 数组类型 fileds
-
-<s-demo :component="FormulateBase" />
 
 :::code
 
@@ -48,12 +44,9 @@ function errorFormat({ type, label, key }) {
 }
 ```
 
-
 ## Button 按钮
 
 设置 `type="button"`，即可使用 Button 按钮
-
-<s-demo :component="ButtonBase" />
 
 :::code
 
@@ -71,8 +64,6 @@ button/base
 
 设置 `type="text"`，使用 Input 输入框
 
-<s-demo :component="InputBase" />
-
 :::code
 
 input/base
@@ -85,8 +76,6 @@ input/base
 
 设置 `type="password"`，展示密码输入框
 
-<s-demo :component="InputPassword" />
-
 :::code
 
 input/password
@@ -97,20 +86,15 @@ input/password
 
 设置 `type="textarea"`，展示多行文本框
 
-<s-demo :component="InputTextarea" />
-
 :::code
 
 input/textarea
 
 :::
 
-
 ## Number 计数器
 
 设置 `type="number"`，使用计数器
-
-<s-demo :component="NumberBase" />
 
 :::code
 
@@ -124,8 +108,6 @@ number/base
 
 设置 `type="select"`，使用 Select 下拉选框
 
-<s-demo :component="SelectBase" />
-
 :::code
 
 select/base
@@ -138,8 +120,6 @@ select/base
 
 设置 `type="radio"`，使用单选框
 
-<s-demo :component="RadioBase" />
-
 :::code
 
 radio/base
@@ -151,8 +131,6 @@ radio/base
 ## Checkbox 多选框
 
 设置 `type="checkbox"`，使用多选框
-
-<s-demo :component="CheckboxBase" />
 
 :::code
 
@@ -167,8 +145,6 @@ checkbox/base
 
 设置 `type="switch"`，使用开关组件
 
-<s-demo :component="SwitchBase" />
-
 :::code
 
 switch/base
@@ -180,8 +156,6 @@ switch/base
 ## DatePicker 日期选择器
 
 设置 `type="date"`，使用日期选择器
-
-<s-demo :component="DateBase" />
 
 :::code
 

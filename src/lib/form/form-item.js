@@ -5,31 +5,59 @@ import { inputProps, useInput } from "../shared"
 export default {
   name: 'SFormItem',
   props: {
-    ...inputProps
+    ...inputProps,
+    label: String,
+    labelWidth: String,
+    prop: String,
+    required: {
+      type: Boolean,
+      default: undefined
+    },
+    rules: [Object, Array],
+    error: String,
+    validateStatus: String,
+    for: String,
+    inlineMessage: {
+      type: [String, Boolean],
+      default: ''
+    },
+    showMessage: {
+      type: Boolean,
+      default: true
+    },
+    size: String
   },
   setup(props, context) {
-    let render
-    if (context.slots.default) {
-      render = context.slots.default
-    } else {
-      const template = useInput(props, context, {
-        onKeyup(event) {
-          if (event.keyCode !== 13) return
-          // 执行回车
-        }
-      })
+    const { render, expose } = useInput(props, context, {
+      onKeyup(event) {
+        if (event.keyCode !== 13) return
+        // 执行回车
+      }
+    })
 
-      template.expose && context.expose(template.expose)
-      render = template.render
-    }
+    expose && context.expose(expose)
 
     return () => h(ElFormItem, {
       props: {
         label: props.label,
+        labelWidth: props.labelWidth,
+        prop: props.prop,
+        required: props.required,
+        rules: props.rules,
+        error: props.error,
+        validateStatus: props.validateStatus,
+        for: props.for,
+        inlineMessage: props.inlineMessage,
+        showMessage: props.showMessage,
+        size: props.size
       },
       scopedSlots: {
         header: () => context.slots.header()
       }
-    }, [render()])
+    }, [
+      context.slots.itemPrefix && context.slots.itemPrefix(),
+      render(),
+      context.slots.itemSuffix && context.slots.itemSuffix(),
+    ])
   }
 }

@@ -81,7 +81,7 @@ export default {
 
     const formData = ref(initFormData(props.fileds, filedsIsArray))
     const fileds = mapFileds(props.fileds, (item) => {
-      const { type, key, label, required, rules: _rules } = item
+      const { type, key, label, rules: _rules } = item
       if (_rules) {
         rules.value[key] = _rules
       } else if (props.withValidate && props.errorFormat) {
@@ -154,7 +154,9 @@ export default {
         prop: item.key,
         required: item.required
       }
-    }, isArray(item) ? item.map(piece => renderInput(piece, { formRef, formData, context })) : [renderInput(item, { formRef, formData, context })]))
+    }, isArray(item)
+      ? item.map(piece => renderInput(piece, { formRef, formData, context }))
+      : [renderInput(item, { formRef, formData, context })]))
     )
   }
 }

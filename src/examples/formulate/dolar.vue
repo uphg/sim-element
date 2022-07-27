@@ -35,12 +35,7 @@ const formRef = ref(null)
 
 function onClick() {
   formRef.value.submit((formData, { valid, errors }) => {
-    console.log('formData')
-    console.log(formData)
-    console.log('valid')
-    console.log(valid)
-    console.log('errors')
-    console.log(errors)
+
   })
 }
 

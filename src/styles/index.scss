@@ -99,3 +99,12 @@
     width: 240px;
   }
 }
+
+.markdown-body {
+  .code-source {
+    pre {
+      border-radius: 0;
+      margin: 0;
+    }
+  }
+}

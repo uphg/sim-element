@@ -12,10 +12,6 @@ function install(Vue) {
   Vue.use(FormItem)
   Vue.use(Formulate)
   Vue.use(Table)
-  // Vue.component(Form.name, Form);
-  // Vue.component(FormItem.name, FormItem);
-  // Vue.component(Formulate.name, Formulate);
-  // Vue.component(Table.name, Table);
 }
 
 function createFormGlobalField(fields) {

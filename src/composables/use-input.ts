@@ -19,7 +19,7 @@ import { h, ref } from 'vue'
 import { toString, find, omitBy } from '../utils'
 import { InputProps } from '../shared/input-props'
 
-export function useInput(props: InputProps, context, options = { onKeyup: null, onInput: null }) {
+export function useInput<T>(props: T, context, options = { onKeyup: null, onInput: null }) {
   const { onKeyup } = options
   const { emit } = context
 
@@ -436,5 +436,5 @@ export function useInput(props: InputProps, context, options = { onKeyup: null, 
     typeof type === 'string' ? props.type === type : type.indexOf(props.type) !== -1
   ))
 
-  return template
+  return template!
 }

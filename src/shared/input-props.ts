@@ -1,4 +1,14 @@
 import { PropType } from "vue";
+import { ElUpload, FileListItem } from "element-ui/types/upload"
+import { CascaderOption } from "element-ui/types/cascader-panel"
+import { DatePickerOptions } from "element-ui/types/date-picker"
+import { TimePickerOptions } from "element-ui/types/time-picker"
+import { TimeSelectOptions } from "element-ui/types/time-select"
+
+type FormItemOptions = {
+  value: any,
+  label: string
+}
 
 function noop() { }
 
@@ -8,36 +18,36 @@ const inputProps = {
     default: ''
   },
   type: {
-    type: String,
+    type: String as PropType<string>,
     default: 'text'
   },
-  text: String,
-  disabled: Boolean,
-  clearable: Boolean,
-  showPassword: Boolean,
-  suffixIcon: String,
-  prefixIcon: String,
-  size: String,
-  maxlength: [String, Number],
-  minlength: [String, Number],
-  showWordLimit: Boolean,
-  multiple: Boolean,
+  text: String as PropType<string>,
+  disabled: Boolean as PropType<boolean>,
+  clearable: Boolean as PropType<boolean>,
+  showPassword: Boolean as PropType<boolean>,
+  suffixIcon: String as PropType<string>,
+  prefixIcon: String as PropType<string>,
+  size: String as PropType<string>,
+  maxlength: [String, Number] as PropType<string | number>,
+  minlength: [String, Number] as PropType<string | number>,
+  showWordLimit: Boolean as PropType<boolean>,
+  multiple: Boolean as PropType<boolean>,
 
   // input - number
   max: {
-    type: Number,
+    type: Number as PropType<number>,
     default: Infinity
   },
   min: {
-    type: Number,
+    type: Number as PropType<number>,
     default: -Infinity
   },
   step: {
-    type: Number,
+    type: Number as PropType<number>,
     default: 1
   },
   stepStrictly: {
-    type: Boolean,
+    type: Boolean as PropType<boolean>,
     default: false
   },
   precision: {
@@ -51,168 +61,170 @@ const inputProps = {
     default: true
   },
   controlsPosition: {
-    type: String,
+    type: String as PropType<string>,
     default: ''
   },
 
+
   // select
   multipleLimit: {
-    type: Number,
+    type: Number as PropType<number>,
     default: 0
   },
-  collapseTags: Boolean,
+  collapseTags: Boolean as PropType<boolean>,
   popperAppendToBody: {
-    type: Boolean,
+    type: Boolean as PropType<boolean>,
     default: true
   },
 
   // cascader
   showAllLevels: {
-    type: Boolean,
+    type: Boolean as PropType<boolean>,
     default: true
   },
-  props: Object,
+  props: Object as PropType<object>,
 
   // date
-  format: String,
-  valueFormat: String,
-  readonly: Boolean,
-  startPlaceholder: String,
-  endPlaceholder: String,
+  format: String as PropType<string>,
+  valueFormat: String as PropType<string>,
+  readonly: Boolean as PropType<boolean>,
+  startPlaceholder: String as PropType<string>,
+  endPlaceholder: String as PropType<string>,
   clearIcon: {
-    type: String,
+    type: String as PropType<string>,
     default: 'el-icon-circle-close'
   },
-  popperClass: String,
+  popperClass: String as PropType<string>,
   editable: {
-    type: Boolean,
+    type: Boolean as PropType<boolean>,
     default: true
   },
   align: {
-    type: String,
+    type: String as PropType<string>,
     default: 'left'
   },
-  defaultValue: {},
-  defaultTime: {},
+  defaultValue: {} as PropType<{ [key: string]: any }>,
+  defaultTime: {} as PropType<{ [key: string]: any }>,
   rangeSeparator: {
+    type: [String, Number] as PropType<string | number>,
     default: '-'
   },
-  unlinkPanels: Boolean,
+  unlinkPanels: Boolean as PropType<boolean>,
 
   // switch
   width: {
-    type: Number,
+    type: Number as PropType<number>,
     default: 40
   },
   activeIconClass: {
-    type: String,
+    type: String as PropType<string>,
     default: ''
   },
   inactiveIconClass: {
-    type: String,
+    type: String as PropType<string>,
     default: ''
   },
-  activeText: String,
-  inactiveText: String,
+  activeText: String as PropType<string>,
+  inactiveText: String as PropType<string>,
   activeColor: {
-    type: String,
+    type: String as PropType<string>,
     default: ''
   },
   inactiveColor: {
-    type: String,
+    type: String as PropType<string>,
     default: ''
   },
   activeValue: {
-    type: [Boolean, String, Number],
+    type: [Boolean, String, Number] as PropType<boolean | string | number>,
     default: true
   },
   inactiveValue: {
-    type: [Boolean, String, Number],
+    type: [Boolean, String, Number] as PropType<boolean | string | number>,
     default: false
   },
 
   // upload
   action: {
-    type: String,
+    type: String as PropType<string>,
     // required: true
   },
   headers: {
-    type: Object,
+    type: Object as PropType<object>,
     default() {
       return {};
     }
   },
-  data: Object,
+  data: Object as PropType<object>,
   // name: {
   //   type: String,
   //   default: 'file'
   // },
-  drag: Boolean,
-  dragger: Boolean,
-  withCredentials: Boolean,
+  drag: Boolean as PropType<boolean>,
+  dragger: Boolean as PropType<boolean>,
+  withCredentials: Boolean as PropType<boolean>,
   showFileList: {
-    type: Boolean,
+    type: Boolean as PropType<boolean>,
     default: true
   },
-  accept: String,
-  beforeUpload: Function,
-  beforeRemove: Function,
+  accept: String as PropType<string>,
+  beforeUpload: Function as PropType<ElUpload['beforeUpload']>,
+  beforeRemove: Function as PropType<ElUpload['onExceed']>,
   onRemove: {
-    type: Function,
+    type: Function as PropType<ElUpload['onRemove']>,
     default: noop
   },
   onChange: {
-    type: Function,
+    type: Function as PropType<ElUpload['onChange']>,
     default: noop
   },
   onPreview: {
-    type: Function
+    type: Function as PropType<ElUpload['onPreview']>,
   },
   onSuccess: {
-    type: Function,
+    type: Function as PropType<ElUpload['onSuccess']>,
     default: noop
   },
   onProgress: {
-    type: Function,
+    type: Function as PropType<ElUpload['onProgress']>,
     default: noop
   },
   onError: {
-    type: Function,
+    type: Function as PropType<ElUpload['onError']>,
     default: noop
   },
   fileList: {
-    type: Array,
+    type: Array as PropType<FileListItem[]>,
     default() {
       return [];
     }
   },
   autoUpload: {
-    type: Boolean,
+    type: Boolean as PropType<boolean>,
     default: true
   },
   listType: {
-    type: String,
+    type: String as PropType<string>,
     default: 'text' // text,picture,picture-card
   },
-  httpRequest: Function,
-  limit: Number,
+  httpRequest: Function as PropType<ElUpload["httpRequest"]>,
+  limit: Number as PropType<number>,
   onExceed: {
-    type: Function,
+    type: Function as PropType<ElUpload['onExceed']>,
     default: noop
   },
 
   // other options
   validateEvent: {
-    type: Boolean,
+    type: Boolean as PropType<boolean>,
     default: true
   },
-  options: [Array, Object],
-  pickerOptions: [Object],
+  options: [Array] as PropType<FormItemOptions[] | CascaderOption[]>,
+  pickerOptions: [Object] as PropType<DatePickerOptions | TimePickerOptions | TimeSelectOptions>,
   hue: {
-    type: String,
+    type: String as PropType<string>,
     default: 'default'
   },
-  exclude: [RegExp, String, Number]
+  exclude: [RegExp, String, Number] as PropType<RegExp | string | number>,
 }
 
 export type InputProps = typeof inputProps

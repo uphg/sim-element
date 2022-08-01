@@ -4,14 +4,13 @@ import { Table as ElTable, TableColumn as ElTableColumn, Link as ElLink, Button 
 import { rowCallbackParams } from "element-ui/types/table"
 import { find } from "../../utils"
 
-type Options = {
+type TableColumnOptions = {
   value: any,
   label: string
 }
 
-
 interface TableColumnProps {
-  options?: Options[];
+  options?: TableColumnOptions[];
   children?: TableColumnProps[];
   [key: string]: any;
 }
@@ -33,10 +32,10 @@ function handleColumnsData(props: TableColumnProps) {
     data.scopedSlots = {
       default: (scope) => props.children?.map((item) => renderChildrenNode(item, scope))
     }
-  } else if (props.options && props.options.length > 0) {
+  } else if (props.options !== void 0) {
     data.scopedSlots = {
-      default: (scope) => find<Options>(
-        (props as { options: Options[] }).options,
+      default: (scope) => find(
+        props.options as TableColumnOptions[],
         ({ value }) => scope.row?.[props.prop] === value
       )?.label || props?.emptyText
     }
